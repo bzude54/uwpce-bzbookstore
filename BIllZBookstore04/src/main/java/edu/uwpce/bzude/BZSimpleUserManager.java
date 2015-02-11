@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class BZSimpleUserManager implements BZUserManager {
 	
+	private static int USERID = 100;
 	private Map<String, BZUserInfo> users;
 		
 
@@ -29,8 +30,10 @@ public class BZSimpleUserManager implements BZUserManager {
 
 
 	@Override
-	public void setSingleUser(String key, BZUserInfo user) {
-		users.put(key, user);
+	public void setSingleUser(BZUserInfo user) {
+		int userId = ++USERID;
+		user.setUserId(userId);
+		users.put(user.getUserName(), user);
 		
 	}
 

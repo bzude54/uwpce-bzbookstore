@@ -8,8 +8,8 @@ public interface BZUserManager {
 	
 	public void setUsers(Map<String, BZUserInfo> users);
 
-	public void setSingleUser(String userName, BZUserInfo newuser);
+	public void setSingleUser(BZUserInfo newuser);
 
-	public BZUserInfo getSingleUser(String userName);
+	public BZUserInfo getSingleUser(String username);
 
 }

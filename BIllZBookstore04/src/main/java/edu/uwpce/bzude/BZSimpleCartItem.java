@@ -25,7 +25,7 @@ public class BZSimpleCartItem implements BZCartItem {
 		return cartItemId;
 	}
 
-	public void setCartItemId(String cartItemId) {
+	private void setCartItemId(String cartItemId) {
 		this.cartItemId = cartItemId;
 	}
 
@@ -47,7 +47,7 @@ public class BZSimpleCartItem implements BZCartItem {
 	}
 
 	@Override
-	public void setCartItemPriceTotal() {
+	public void setCartItemTotalPrice() {
 		this.cartItemTotalPrice = this.cartItemQty * cartItemBook.getPrice();
 	}
 

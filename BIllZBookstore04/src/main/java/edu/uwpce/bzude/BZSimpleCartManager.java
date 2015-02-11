@@ -1,88 +1,76 @@
 package edu.uwpce.bzude;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BZSimpleCartManager implements BZCartManager {
-	
-	private static final int STATE_TAX_PERCENT = 8;
+
+    private static final Logger logger = LoggerFactory.getLogger(BZSimpleCartManager.class);
+
+    
+    private static final int STATE_TAX_PERCENT = 8;
 	private static final double SHIPPING_COST_UNDER_THRESHOLD = 5.00;
 	private static final double SHIPPING_COST_OVER_THRESHOLD = 15.00;
 	private static final int SHIPPING_QTY_THRESHOLD = 5;
+
+	private Map<Integer, BZCart> carts;
 	
-	private Map<String, BZCartItem> cart;
-	private int cartQty;
-	private double cartSubtotal;
-
-	@Override
-	public Map<String, BZCartItem> getCart() {
-		return this.cart;
+	public BZSimpleCartManager() {
+		carts = new ConcurrentHashMap<Integer, BZCart>();
 	}
 
 	@Override
-	public void setCart(Map<String, BZCartItem> cartItems) {
-		this.cart = cartItems;
+	public Map<Integer, BZCart> getCarts() {
+		return this.carts;
 	}
 
 	@Override
-	public void setCartItem(BZCartItem cartItem) {
-		if (cartItem != null && cartItem.getCartItemBook() != null) {
-			this.cart.put(cartItem.getCartItemBook().getISBN(), cartItem);
-		}
+	public void setCarts(Map<Integer, BZCart> carts) {
+		this.carts = carts;
 	}
 
-	@Override
-	public void setItemQty(String itemId, int quantity) {
-		BZCartItem cartItem = cart.get(itemId);
-		if (cartItem != null) {
-			cartItem.setCartItemQty(quantity);
-		}
-	}
 
 	@Override
-	public double getCartSubtotal() {
-		cartSubtotal = 0.0;
-		for (Map.Entry<String, BZCartItem> entry : cart.entrySet()) {
-			cartSubtotal += entry.getValue().getCartItemTotalPrice();
-		}
-		return cartSubtotal;
-
-	}
-
-	@Override
-	public double getCartTax() {
-		double tax = 0.0;
-		tax = this.getCartSubtotal() * STATE_TAX_PERCENT / 100;
-		return tax;
-	}
-
-	@Override
-	public int getCartQty() {
-		cartQty = 0;
-		for (Map.Entry<String, BZCartItem> entry : cart.entrySet()) {
-			cartQty += entry.getValue().getCartItemQty();
-		}
-		return cartQty;
-	}
-
-	@Override
-	public double getCartShippingCost() {
+	public double getCartShippingCost(int cartId) {
 		double shippingCost = 0.0;
-		if (this.getCartQty() >= SHIPPING_QTY_THRESHOLD){
-			shippingCost = SHIPPING_COST_OVER_THRESHOLD;
-		} else {
-			shippingCost = SHIPPING_COST_UNDER_THRESHOLD;			
+		if ((carts != null) && (carts.containsKey(cartId))) {
+			if (carts.get(cartId).getCartQty() >= SHIPPING_QTY_THRESHOLD) {
+				shippingCost = SHIPPING_COST_OVER_THRESHOLD;
+			} else {
+				shippingCost = SHIPPING_COST_UNDER_THRESHOLD;
+			}
 		}
 		return shippingCost;
 	}
 
 	@Override
-	public BZCartItem getCartItem(String itemId) {
-		return cart.get(itemId);
+	public void setSingleCart(BZCart cart) {
+		if (cart != null) {
+			carts.put(cart.getCartId(), cart);
+			logger.info("Successfully added new cart to Cart Manager");
+		} else {
+			logger.error("The cart sent to the Cart Manager is null!");
+		}
 	}
 
 	@Override
-	public int getItemQty(String itemId) {		
-		return cart.get(itemId).getCartItemQty();
+	public BZCart getSingleCart(int cartId) {
+		BZCart cart = null;
+		if ((carts != null) && (carts.containsKey(cartId))) {
+			cart = carts.get(cartId);
+		}
+		return cart;
+	}
+
+	@Override
+	public double getCartTax(int cartId) {
+		double cartTax = 0.0;
+		double cartSub = this.getSingleCart(cartId).getCartSubtotal();
+		cartTax = cartSub * STATE_TAX_PERCENT / 100;
+		return cartTax;
 	}
 
 }

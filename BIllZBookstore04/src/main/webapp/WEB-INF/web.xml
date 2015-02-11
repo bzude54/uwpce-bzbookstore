@@ -23,7 +23,6 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml
 						/resources/data/books.xml
 						/resources/data/users.xml
-						/resources/data/cart.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

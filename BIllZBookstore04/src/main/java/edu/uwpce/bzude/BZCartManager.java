@@ -4,26 +4,17 @@ import java.util.Map;
 
 public interface BZCartManager {
 	
-	public Map<String, BZCartItem> getCart();
+	Map<Integer, BZCart> getCarts();
 	
-	public void setCart(Map<String, BZCartItem> cartItems);
+	void setCarts(Map<Integer, BZCart> cart);
 	
-	public void setCartItem(BZCartItem cartItem);
+	void setSingleCart(BZCart cart);
 	
-	public BZCartItem getCartItem(String itemId);
-	
-	public void setItemQty(String itemId, int quantity);
-	
-	public int getItemQty(String itemId);
-	
-	public double getCartSubtotal();
-	
-	public double getCartTax();
-	
-	public int getCartQty();
-	
-	public double getCartShippingCost();
-	
+	BZCart getSingleCart(int cartId);
+			
+	double getCartTax(int cartId);
+		
+	double getCartShippingCost(int cartId);
 	
 
 }

@@ -3,16 +3,17 @@ package edu.uwpce.bzude;
 public interface BZCartItem {
 	
 	
+	BZBook getCartItemBook();	
+
+	void setCartItemBook(BZBook book);
+	
 	int getCartItemQty();
 
 	void setCartItemQty(int qty);
 	
-	void setCartItemPriceTotal();
-	
-	BZBook getCartItemBook();	
+	void setCartItemTotalPrice();
 
 	double getCartItemTotalPrice();
 
-	void setCartItemBook(BZBook book);
 
 }

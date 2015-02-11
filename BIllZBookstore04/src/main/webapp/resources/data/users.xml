@@ -15,6 +15,7 @@
 	<bean id="user1" class="edu.uwpce.bzude.BZUserInfo">
 		<property name="userName" value="bob" />
 		<property name="password" value="pwd" />
+		<property name="userId" value="100" />
 	</bean>
 		
 </beans>

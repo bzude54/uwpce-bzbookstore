@@ -38,11 +38,14 @@ public class BZUserInfoController {
     	
 //    	String username = request.getParameter("userName");
     	String username = loginUserInfo.getUserName();
+
   
     	Map<String, BZUserInfo> users = userManager.getUsers();
     	if (users != null && users.containsKey(username)) {
             session.setAttribute("username", users.get(username).getUserName());
-            return "redirect:/bzbooks";
+            session.setAttribute("userId", users.get(username).getUserId());
+            System.out.println("userId after login is: " + users.get(username).getUserId());
+           return "redirect:/bzbooks";
     		
     	} else {
 
@@ -64,8 +67,10 @@ public class BZUserInfoController {
 //    	BZUserInfo newuser = new BZUserInfo();
 //    	newuser.setUserName(request.getParameter("userName"));
 //    	newuser.setPassword(request.getParameter("password"));
-    	userManager.setSingleUser(user.getUserName(), user);
+    	userManager.setSingleUser(user);
         session.setAttribute("username", user.getUserName());
+        session.setAttribute("userId", user.getUserId());
+        System.out.println("new userId after register is: " + user.getUserId());
         return "redirect:/bzlogin";
     }
     
@@ -85,11 +90,11 @@ public class BZUserInfoController {
     }
     
     
-    @RequestMapping(value = "/bzaccountinfo/{username}", method = RequestMethod.POST)
+    @RequestMapping(value = "/bzaccountinfo/{usersname}", method = RequestMethod.POST)
     public String processAccountInfoForm(HttpSession session, @ModelAttribute BZUserInfo accountUserInfo) {
     	
+    	int userId = accountUserInfo.getUserId();
     	String username = accountUserInfo.getUserName();
- //   	String username = (String) session.getAttribute(username);
     	
 		boolean update = false;
 		Map<String, BZUserInfo> users = userManager.getUsers();
@@ -127,7 +132,7 @@ public class BZUserInfoController {
 			user.setCreditCard2(accountUserInfo.getCreditCard2());
 			session.setAttribute("creditcard2", user.getCreditCard2());
 
-			return "redirect:/bzaccountinfo/{username}";
+			return "redirect:/bzaccountinfo/{userId}";
 		} else {
 			return "redirect:/bzregister";
 		}

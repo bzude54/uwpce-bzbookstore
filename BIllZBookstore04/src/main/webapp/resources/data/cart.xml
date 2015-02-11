@@ -4,15 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="simpleCartManager" class="edu.uwpce.bzude.BZSimpleCartManager">
-		<property name="cart">
-			<map></map>
-		</property>
 	</bean>
 	
-	<bean id="cartItem1" class="edu.uwpce.bzude.BZSimpleCartItem">
-		<property name="cartItemId" value="123456678" />
-		<property name="cartItemQty" value="0" />
-	</bean>
-
 
 </beans>

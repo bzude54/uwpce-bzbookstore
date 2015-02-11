@@ -12,11 +12,21 @@
 	<fmt:message key="cart"/>  
 </h1>
 
-<form:form method="POST" modelAttribute="cartItems">
-	<c:forEach var="item" items="${ cartItems }">
-		<p><c:out value="${ item.cartItemBook.title }" />, quantity: <c:out value="${ item.cartItemQty }" /></p>
-		<form:input path="cartItemQty" value="cartItemQty"/>
-	</c:forEach>
+<form:form method="POST" modelAttribute="cartinfo">
+	<c:forEach var="cartitem" items="${ cartinfo.cart }" varStatus="status">
+        <table>
+     		<tbody>
+     			<tr>
+        			<th>Key</th>
+        			<th>Value</th>
+    			</tr>
+    			<tr>
+            		<td>${cartitem.key}</td>
+            		<td><input name="cartitem['${cartitem.key}']" value="${cartitem.value.cartItemQty}"></td>
+        		</tr>
+     		</tbody>
+     	</table> 
+	</c:forEach><br />
     <input type="submit"/>
 </form:form>
 
