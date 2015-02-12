@@ -1,5 +1,7 @@
 package edu.uwpce.bzude;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -22,7 +24,7 @@ public class BZCartController {
 	
 	private BZCartManager cartManager = new BZSimpleCartManager();;
 	private BZBookManager bookManager;
-	private BZCart cart = new BZSimpleCart();
+	private BZCart bzcart = new BZSimpleCart();
 //	private BZCartItem cartItem;
 	
 	
@@ -38,29 +40,29 @@ public class BZCartController {
 		System.out.println("addItemTOCart bookid: " + bookid);
 		int userId = (Integer) session.getAttribute("userId");
 		System.out.println("userId is: " + userId);
-		cart = cartManager.getSingleCart(userId);
+		bzcart = cartManager.getSingleCart(userId);
 		BZCartItem cartItem = new BZSimpleCartItem();
-		if (cart != null) {
-			if (cart.getSingleCartItem(bookid) != null){
-				cartItem = cart.getSingleCartItem(bookid);
+		if (bzcart != null) {
+			if (bzcart.getSingleCartItem(bookid) != null){
+				cartItem = bzcart.getSingleCartItem(bookid);
 				cartItem.setCartItemQty(cartItem.getCartItemQty() + 1);
 			} else {
 				System.out.println("cartItem IS null!");
 				cartItem = new BZSimpleCartItem(bookManager.getSingleBook(bookid));
 				System.out.println("cartItem has an id: " + cartItem.getCartItemBook().getISBN());
-	    		cart.setSingleCartItem(cartItem);
+	    		bzcart.setSingleCartItem(cartItem);
 			}
 		} else {
 			System.out.println("getCart and cartItem IS null!");
-			cart = new BZSimpleCart(userId);
+			bzcart = new BZSimpleCart(userId);
 			cartItem = new BZSimpleCartItem(bookManager.getSingleBook(bookid));
 			System.out.println("cartItem has an id: " + cartItem.getCartItemBook().getISBN());
-    		cart.setSingleCartItem(cartItem);
-    		cartManager.setSingleCart(cart);
+    		bzcart.setSingleCartItem(cartItem);
+    		cartManager.setSingleCart(bzcart);
     	}
 
 		logger.info("cartItem - " + cartItem.toString());
-		System.out.println("added book to cart for: " + userId + " belonging to: " + cart.getCartId());		
+		System.out.println("added book to cart for: " + userId + " belonging to: " + bzcart.getCartId());		
 		session.setAttribute("addcartitem", cartItem);
     	
     	return "redirect:/confirmcartadd";
@@ -78,9 +80,9 @@ public class BZCartController {
 	public ModelAndView showCart(HttpSession session) {
 		
 		int userId = (Integer) session.getAttribute("userId");
-		BZCart cart = cartManager.getSingleCart(userId);
-		if (cart != null) {
-			System.out.println("cartID in showcart is: " + cart.getCartId());
+		BZCart bzcart = cartManager.getSingleCart(userId);
+		if (bzcart != null) {
+			System.out.println("cartID in showcart is: " + bzcart.getCartId());
 		}
 		int cartQty = 0;
 		String booktitle;
@@ -91,23 +93,23 @@ public class BZCartController {
 /*		model.addAttribute("cart", cart);
 		model.addAttribute("cartMap", cart.getCart());
 */
-		session.setAttribute("cart", cart);
+		session.setAttribute("bzcart", bzcart);
 		
-		return new ModelAndView("bzcart", "cartinfo", cart);
+		return new ModelAndView("bzcart", "bzcart", bzcart);
 	}
 	
 	@RequestMapping(value = "/bzcart", method = RequestMethod.POST)
-	public ModelAndView updateCart(HttpSession session, @ModelAttribute("cartinfo") BZSimpleCart cart ) {
+	public ModelAndView updateCart(HttpSession session, @ModelAttribute BZSimpleCart bzcart ) {
 		
 		System.out.println("returning from cart");
-		BZCart checkcart = (BZCart) session.getAttribute("cart");
-		System.out.println("cartID: " + cart.getCartId());
-		for (Map.Entry<String, BZCartItem> entry : cart.getCart().entrySet()) {
-			System.out.println("book ISBN in cart: " + entry.getValue().getCartItemBook().getISBN() + " qty: " + entry.getValue().getCartItemQty());
+//		BZCart checkcart = (BZCart) session.getAttribute("cart");
+		System.out.println("cartID: " + bzcart.getCartId());
+		for (BZCartItem item : bzcart.getCart()) {
+			System.out.println("book ISBN in cart: " + item.getCartItemBook().getISBN() + " qty: " + item.getCartItemQty());
 		}
 
 		
-		return new ModelAndView("bzcart", "cartinfo", cart);
+		return new ModelAndView("bzcart", "cart", bzcart);
 	}
 
 
