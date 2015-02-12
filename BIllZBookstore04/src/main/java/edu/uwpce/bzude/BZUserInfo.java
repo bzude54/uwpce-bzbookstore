@@ -28,9 +28,11 @@ public class BZUserInfo implements Serializable{
 	private String emailAddress;
     
 	private String mailingStreetAddress;
+	private String mailingCity;
 	private String mailingState;
 	private String mailingZip;
 	private String shippingStreetAddress;
+	private String shippingCity;
 	private String shippingState;
 	private String shippingZip;
 	private String phoneNumber1;
@@ -89,6 +91,12 @@ public class BZUserInfo implements Serializable{
 	public void setMailingStreetAddress(String mailingStreetAddress) {
 		this.mailingStreetAddress = mailingStreetAddress;
 	}
+	public String getMailingCity() {
+		return mailingCity;
+	}
+	public void setMailingCity(String mailingCity) {
+		this.mailingCity = mailingCity;
+	}
 	public String getMailingState() {
 		return mailingState;
 	}
@@ -106,6 +114,12 @@ public class BZUserInfo implements Serializable{
 	}
 	public void setShippingStreetAddress(String shippingStreetAddress) {
 		this.shippingStreetAddress = shippingStreetAddress;
+	}
+	public String getShippingCity() {
+		return shippingCity;
+	}
+	public void setShippingCity(String shippingCity) {
+		this.shippingCity = shippingCity;
 	}
 	public String getShippingState() {
 		return shippingState;

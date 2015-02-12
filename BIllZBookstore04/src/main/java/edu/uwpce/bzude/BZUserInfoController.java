@@ -112,6 +112,8 @@ public class BZUserInfoController {
 			user.setMailingStreetAddress(accountUserInfo.getMailingStreetAddress());
 			session.setAttribute("mailingstreet",
 					accountUserInfo.getMailingStreetAddress());
+			user.setMailingCity(accountUserInfo.getMailingCity());
+			session.setAttribute("mailingcity", user.getMailingCity());
 			user.setMailingState(accountUserInfo.getMailingState());
 			session.setAttribute("mailingstate", user.getMailingState());
 			user.setMailingZip(accountUserInfo.getMailingZip());
@@ -119,6 +121,8 @@ public class BZUserInfoController {
 			user.setShippingStreetAddress(accountUserInfo.getShippingStreetAddress());
 			session.setAttribute("shippingstreet",
 					accountUserInfo.getShippingStreetAddress());
+			user.setShippingCity(accountUserInfo.getShippingCity());
+			session.setAttribute("shippingcity", user.getShippingCity());
 			user.setShippingState(accountUserInfo.getShippingState());
 			session.setAttribute("shippingstate", user.getShippingState());
 			user.setShippingZip(accountUserInfo.getShippingZip());
