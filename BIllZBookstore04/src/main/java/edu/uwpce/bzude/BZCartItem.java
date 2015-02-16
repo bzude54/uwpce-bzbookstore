@@ -7,6 +7,10 @@ public interface BZCartItem {
 
 	void setCartItemBook(BZBook book);
 	
+	String getCartItemId();
+	
+	void setCartItemId(String itemId);
+	
 	int getCartItemQty();
 
 	void setCartItemQty(int qty);
@@ -14,6 +18,8 @@ public interface BZCartItem {
 	void setCartItemTotalPrice();
 
 	double getCartItemTotalPrice();
+
+	void incrementCartItemQty();
 
 
 }

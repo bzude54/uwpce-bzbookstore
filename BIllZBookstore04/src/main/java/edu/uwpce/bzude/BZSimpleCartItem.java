@@ -11,22 +11,25 @@ public class BZSimpleCartItem implements BZCartItem {
 		this.cartItemQty = 0;
 		this.cartItemTotalPrice = 0.0;
 		this.cartItemBook = new BZBook();
-		this.setCartItemId(null);
+		this.cartItemId = null;
 	}
 
 	public BZSimpleCartItem(BZBook book) {
 		this.cartItemQty = 1;
 		this.cartItemBook = book;
 		this.cartItemTotalPrice = book.getPrice();
-		this.setCartItemId(book.getISBN());
+		this.cartItemId = book.getISBN();
 	}
 
+	@Override
 	public String getCartItemId() {
 		return cartItemId;
 	}
 
-	private void setCartItemId(String cartItemId) {
-		this.cartItemId = cartItemId;
+	@Override
+	public void setCartItemId(String itemId) {
+			this.cartItemId = itemId;
+			System.out.println("in setCartItemId setting id to: " + this.cartItemId);
 	}
 
 	@Override
@@ -37,9 +40,8 @@ public class BZSimpleCartItem implements BZCartItem {
 	@Override
 	public void setCartItemQty(int qty) {
 		this.cartItemQty = qty;
-		this.cartItemTotalPrice = qty * cartItemBook.getPrice();
 	}
-
+	
 	@Override
 	public double getCartItemTotalPrice() {
 		this.cartItemTotalPrice = this.cartItemQty * cartItemBook.getPrice();	
@@ -58,7 +60,15 @@ public class BZSimpleCartItem implements BZCartItem {
 
 	@Override
 	public void setCartItemBook(BZBook book) {
+		System.out.println("in setCartItemBook with book: " + book.getTitle());
 		this.cartItemBook = book;
+		this.cartItemId = book.getISBN();
+	}
+
+
+	@Override
+	public void incrementCartItemQty() {
+		this.cartItemQty += 1;
 	}
 
 

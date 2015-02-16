@@ -5,11 +5,14 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+@Controller
 public class BZCheckoutController {
 	
 	   private static final Logger logger = LoggerFactory.getLogger(BZCheckoutController.class);
@@ -27,7 +30,7 @@ public class BZCheckoutController {
 		}
 		
 		@RequestMapping(value = "/showcheckout/{cartid}", method = RequestMethod.GET)
-		public String showcheckout(HttpSession session, @PathVariable("cartid") int cartid, @ModelAttribute BZCheckoutInfo checkoutinfo ){
+		public ModelAndView showcheckout(HttpSession session, @PathVariable("cartid") int cartid, @ModelAttribute BZCheckoutInfo bzcheckoutinfo ){
 
 			String username = (String) session.getAttribute("username");
 			bzcart = cartManager.getSingleCart(cartid);
@@ -35,12 +38,14 @@ public class BZCheckoutController {
 			
 			bzcheckoutinfo = new BZCheckoutInfo(bzcart, bzuserinfo);
 			checkoutManager.setCheckoutinfo(bzcheckoutinfo);
-			if (!checkoutManager.validCreditCard() || !checkoutManager.validCreditCard()) {
-				return "redirect:/bzaccountinfo/{cartid]";
+/*			if (!checkoutManager.validShippingAddress() || !checkoutManager.validCreditCard()) {
+				return "redirect:/bzaccountinfo/{cartid}";
 			} else {
-				return "";
+				return "bzcheckout";
 			}
-						
+*/			
+			
+			return new ModelAndView("bzcheckout", "bzcheckoutinfo", bzcheckoutinfo);
 		}
 
 

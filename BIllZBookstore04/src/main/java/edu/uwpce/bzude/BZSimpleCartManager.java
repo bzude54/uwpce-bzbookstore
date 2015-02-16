@@ -32,20 +32,6 @@ public class BZSimpleCartManager implements BZCartManager {
 		this.carts = carts;
 	}
 
-
-	@Override
-	public double getCartShippingCost(int cartId) {
-		double shippingCost = 0.0;
-		if ((carts != null) && (carts.containsKey(cartId))) {
-			if (carts.get(cartId).getCartQty() >= SHIPPING_QTY_THRESHOLD) {
-				shippingCost = SHIPPING_COST_OVER_THRESHOLD;
-			} else {
-				shippingCost = SHIPPING_COST_UNDER_THRESHOLD;
-			}
-		}
-		return shippingCost;
-	}
-
 	@Override
 	public void setSingleCart(BZCart cart) {
 		if (cart != null) {
@@ -57,10 +43,11 @@ public class BZSimpleCartManager implements BZCartManager {
 	}
 
 	@Override
-	public BZCart getSingleCart(int cartId) {
-		BZCart cart = null;
-		if ((carts != null) && (carts.containsKey(cartId))) {
-			cart = carts.get(cartId);
+	public BZCart getSingleCart(int userId) {
+		BZCart cart = carts.get(userId);
+		if (cart == null) {
+			cart = new BZSimpleCart(userId);
+			carts.put(userId, cart);
 		}
 		return cart;
 	}
@@ -68,9 +55,30 @@ public class BZSimpleCartManager implements BZCartManager {
 	@Override
 	public double getCartTax(int cartId) {
 		double cartTax = 0.0;
-		double cartSub = this.getSingleCart(cartId).getCartSubtotal();
-		cartTax = cartSub * STATE_TAX_PERCENT / 100;
+		double cartSubTotal = 0.0;
+		BZCart cart = carts.get(cartId);
+		if (cart != null) {
+			cartSubTotal = cart.getCartSubtotal();
+			cartTax = cartSubTotal * STATE_TAX_PERCENT / 100;			
+		} else {
+			logger.error("There is no cart with this id!");
+		}
 		return cartTax;
 	}
+	
+	@Override
+	public double getCartShippingCost(int cartId) {
+		double shippingCost = 0.0;
+		BZCart cart = carts.get(cartId);
+			if (cart.getCartQty() >= SHIPPING_QTY_THRESHOLD) {
+				shippingCost = SHIPPING_COST_OVER_THRESHOLD;
+			} else {
+				if (cart.getCartQty() > 0) {
+					shippingCost = SHIPPING_COST_UNDER_THRESHOLD;					
+				} 
+			}
+		return shippingCost;
+	}
+
 
 }

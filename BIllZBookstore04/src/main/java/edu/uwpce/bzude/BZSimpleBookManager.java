@@ -1,29 +1,33 @@
 package edu.uwpce.bzude;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BZSimpleBookManager implements BZBookManager {
 
-	private Map<String, BZBook> booksMap;
+	private Map<String, BZBook> books;
+	
+	public BZSimpleBookManager() {
+		this.books = new ConcurrentHashMap<String, BZBook>();
+	}
 	
 	public void setBooks(Map<String, BZBook> books) {
-		this.booksMap = books;
+		this.books = books;
 	}
 
 	@Override
 	public Map<String, BZBook> getBooks() {
 //		System.out.println("Getting books from BZSimpleBookManager");
-		return booksMap;
+		return books;
 	}
 
 	@Override
 	public BZBook getSingleBook(String bookId) {
-		return booksMap.get(bookId);
+		return books.get(bookId);
 	}
 
 	@Override
 	public void setSingleBook(BZBook book) {
-		// TODO Auto-generated method stub
-		
+		books.put(book.getISBN(), book);
 	}
 }
