@@ -38,6 +38,7 @@ public class BZUserInfoController {
     	
 //    	String username = request.getParameter("userName");
     	String username = loginUserInfo.getUserName();
+    	int userId = loginUserInfo.getUserId();
 
   
     	Map<String, BZUserInfo> users = userManager.getUsers();
@@ -90,7 +91,7 @@ public class BZUserInfoController {
     }
     
     
-    @RequestMapping(value = "/bzaccountinfo/{usersname}", method = RequestMethod.POST)
+    @RequestMapping(value = "/bzaccountinfo/{username}", method = RequestMethod.POST)
     public String processAccountInfoForm(HttpSession session, @ModelAttribute BZUserInfo accountUserInfo) {
     	
     	int userId = accountUserInfo.getUserId();

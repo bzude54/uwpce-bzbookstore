@@ -2,12 +2,12 @@ package edu.uwpce.bzude;
 
 public class BZCheckoutInfo {
 	
-	private BZCart cart;
+	private BZSimpleCart cart;
 	private BZUserInfo userinfo;
 	
 	public BZCheckoutInfo(){}
 	
-	public BZCheckoutInfo(BZCart bzcart, BZUserInfo bzuserinfo) {
+	public BZCheckoutInfo(BZSimpleCart bzcart, BZUserInfo bzuserinfo) {
 		this.userinfo = bzuserinfo;
 		this.cart = bzcart;
 	}

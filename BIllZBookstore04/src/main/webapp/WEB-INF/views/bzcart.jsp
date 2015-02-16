@@ -58,7 +58,7 @@
     <input type="submit"/>
 </form:form>
 
-<p>Click <a href="<c:url value="/showcheckout/${ bzcart.cartId }"/>">here</a> to proceed to checkout.</p>
+<p>Click <a href="<c:url value="/showcheckout/${ bZSimpleCart.cartId }"/>">here</a> to proceed to checkout.</p>
 </c:otherwise>
 </c:choose>
 

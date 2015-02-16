@@ -114,7 +114,8 @@ public class BZCartController {
             }
 		}
 
-	        session.setAttribute("bZSimpleCart", checkcart);
+		cartManager.setSingleCart(checkcart);
+	        session.setAttribute("bzcart", checkcart);
 	        
 		return "redirect:bzcart";
 	}
