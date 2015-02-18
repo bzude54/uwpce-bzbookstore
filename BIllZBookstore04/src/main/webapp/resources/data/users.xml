@@ -6,7 +6,7 @@
 	<bean id="simpleUserManager" class="edu.uwpce.bzude.BZSimpleUserManager">
 		<property name="users">
 			<map>
-				<entry key="bob" value-ref="user1" />			
+				<entry key="100" value-ref="user1" />			
 			</map>
 		</property>
 	
@@ -16,6 +16,17 @@
 		<property name="userName" value="bob" />
 		<property name="password" value="pwd" />
 		<property name="userId" value="100" />
+		<property name="firstName" value="Jim" />
+		<property name="lastName" value="Bob" />
+		<property name="mailingStreetAddress" value="123 Free" />
+		<property name="mailingCity" value="Seattle" />
+		<property name="mailingState" value="WA" />
+		<property name="mailingZip" value="98100" />
+		<property name="shippingStreetAddress" value="345 MLK Blvd" />
+		<property name="shippingCity" value="Renton" />
+		<property name="shippingState" value="WA" />
+		<property name="shippingZip" value="98000" />
+		<property name="creditCard1" value="1234567890" />
 	</bean>
 		
 </beans>

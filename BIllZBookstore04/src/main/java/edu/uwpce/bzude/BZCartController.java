@@ -39,9 +39,9 @@ public class BZCartController {
 			@PathVariable("bookid") String bookid) {
 
 		System.out.println("addItemTOCart bookid: " + bookid);
-		int userId = (Integer) session.getAttribute("userId");
-		System.out.println("userId is: " + userId);
-		bzcart = cartManager.getSingleCart(userId);
+		int userid = (Integer) session.getAttribute("userid");
+		System.out.println("userid is: " + userid);
+		bzcart = cartManager.getSingleCart(userid);
 		BZSimpleCartItem cartItem = bzcart.getSingleCartItem(bookid);
 		if (cartItem != null) {
 			cartItem.incrementCartItemQty();
@@ -54,7 +54,7 @@ public class BZCartController {
 		}
 
 		logger.info("cartItem - " + cartItem.toString());
-		System.out.println("added book to cart for: " + userId
+		System.out.println("added book to cart for: " + userid
 				+ " belonging to: " + bzcart.getCartId());
 		session.setAttribute("addcartitem", cartItem);
 
@@ -72,8 +72,8 @@ public class BZCartController {
 	@RequestMapping(value = "/bzcart", method = RequestMethod.GET)
 	public ModelAndView showCart(HttpSession session) {
 
-		int userId = (Integer) session.getAttribute("userId");
-		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getSingleCart(userId);
+		int userid = (Integer) session.getAttribute("userid");
+		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getSingleCart(userid);
 		if (bzcart != null) {
 			System.out.println("cartID in showcart is: " + bzcart.getCartId());
 			for (BZCartItem item : bzcart.getCartItems()) {

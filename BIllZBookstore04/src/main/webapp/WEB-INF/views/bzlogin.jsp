@@ -5,6 +5,7 @@
     <title><fmt:message key="userlogin"/></title>
 </head>
 <body>
+<%@ include file="bzheader.jsp"%>
 
 <p>Welcome to <fmt:message key="userlogintitle"/>, please enter your username and password</p>
 <form:form method="post" modelAttribute="loginUserInfo">

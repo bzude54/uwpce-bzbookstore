@@ -9,16 +9,19 @@
  
 <p>Welcome ${ username }, here the info we have on file for you. Please update your information as necessary and submit.</p>
 <p>If all your information is correct, please click <a href="<c:url value="/bzbooks"/>">here</a> to return to our book inventory.</p>
-<form:form method="post" modelAttribute="acctUserInfo">
+<form:form method="post" modelAttribute="BZUserInfo" action="bzaccountinfo">
 <div style="width:300px;text-align:right">
+	<form:hidden path="userId"/>
     <form:label path="userName">User Name:</form:label><form:input path="userName"/><br>
     <form:label path="firstName">First Name:</form:label><form:input path="firstName"/><br>
     <form:label path="lastName">Last Name:</form:label><form:input path="lastName"/><br>
     <form:label path="emailAddress">Email address:</form:label><form:input path="emailAddress"/><br>
-    <form:label path="mailingStreetAddress">Mailing Address street:</form:label><form:input path="mailingStreetAddress"/><br>
+    <form:label path="mailingStreetAddress">Mailing address street:</form:label><form:input path="mailingStreetAddress"/><br>
+    <form:label path="mailingCity">Mailing address city:</form:label><form:input path="mailingCity"/><br>
     <form:label path="mailingState">Mailing address state:</form:label><form:input path="mailingState"/><br>
     <form:label path="mailingZip">Mailing address zipcode:</form:label><form:input path="mailingZip"/><br>
     <form:label path="shippingStreetAddress">Shipping Address street:</form:label><form:input path="shippingStreetAddress"/><br>
+    <form:label path="shippingCity">Shipping address city:</form:label><form:input path="shippingCity"/><br>
     <form:label path="shippingState">Shipping address state:</form:label><form:input path="shippingState"/><br>
     <form:label path="shippingZip">Shipping address zipcode:</form:label><form:input path="shippingZip"/><br>
     <form:label path="phoneNumber1">Home phone:</form:label><form:input path="phoneNumber1"/><br>

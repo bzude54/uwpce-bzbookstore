@@ -5,6 +5,7 @@
     <title><fmt:message key="newreg"/></title>
 </head>
 <body>
+<%@ include file="bzheader.jsp"%>
 
 <p>Welcome to <fmt:message key="newregtitle"/>, please enter your information below to create a new account.</p>
 <form:form method="post" modelAttribute="newUserInfo">

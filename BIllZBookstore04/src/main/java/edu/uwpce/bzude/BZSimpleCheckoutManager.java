@@ -22,9 +22,9 @@ public class BZSimpleCheckoutManager implements BZCheckoutManager {
 		boolean validShipAddr = false;
 		String street = checkoutinfo.getUserStreetAddress();
 		String city = checkoutinfo.getUserCity();
-		String state= checkoutinfo.getUserState();
+		String state = checkoutinfo.getUserState();
 		String zip = checkoutinfo.getUserZip();
-		if (street != null && city != null && state != null && zip != null) {
+		if (!street.isEmpty() && !city.isEmpty() && !state.isEmpty() && !zip.isEmpty()) {
 			validShipAddr = true;			
 		}
 		return validShipAddr;
@@ -33,7 +33,7 @@ public class BZSimpleCheckoutManager implements BZCheckoutManager {
 	@Override
 	public boolean validCreditCard() {
 		boolean validCreditCard = false;
-		if (checkoutinfo.getUserCreditCard() != null) {
+		if (!checkoutinfo.getUserCreditCard().isEmpty()) {
 			validCreditCard = true;
 		}
 		return validCreditCard;

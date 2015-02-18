@@ -4,12 +4,12 @@ import java.util.Map;
 
 public interface BZUserManager {
 	
-	public Map<String, BZUserInfo> getUsers();	
+	public Map<Integer, BZUserInfo> getUsers();	
 	
-	public void setUsers(Map<String, BZUserInfo> users);
+	public void setUsers(Map<Integer, BZUserInfo> users);
 
 	public void setSingleUser(BZUserInfo newuser);
 
-	public BZUserInfo getSingleUser(String username);
+	public BZUserInfo getSingleUser(int userid);
 
 }

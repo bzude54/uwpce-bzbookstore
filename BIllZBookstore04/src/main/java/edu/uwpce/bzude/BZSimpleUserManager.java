@@ -5,25 +5,25 @@ import java.util.Map;
 public class BZSimpleUserManager implements BZUserManager {
 	
 	private static int USERID = 100;
-	private Map<String, BZUserInfo> users;
+	private Map<Integer, BZUserInfo> users;
 		
 
 	@Override
-	public Map<String, BZUserInfo> getUsers() {
+	public Map<Integer, BZUserInfo> getUsers() {
 		return users;
 	}
 
 	@Override
-	public void setUsers(Map<String, BZUserInfo> users) {
+	public void setUsers(Map<Integer, BZUserInfo> users) {
 		this.users = users;
 		
 	}
 
 	@Override
-	public BZUserInfo getSingleUser(String username) {
+	public BZUserInfo getSingleUser(int userid) {
 		BZUserInfo user = null;
-		if (users != null && users.containsKey(username)) {
-			user = users.get(username);
+		if (users != null && users.containsKey(userid)) {
+			user = users.get(userid);
 		}
 		return user;
 	}
@@ -33,7 +33,7 @@ public class BZSimpleUserManager implements BZUserManager {
 	public void setSingleUser(BZUserInfo user) {
 		int userId = ++USERID;
 		user.setUserId(userId);
-		users.put(user.getUserName(), user);
+		users.put(user.getUserId(), user);
 		
 	}
 

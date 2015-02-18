@@ -38,14 +38,24 @@ public class BZUserInfoController {
     	
 //    	String username = request.getParameter("userName");
     	String username = loginUserInfo.getUserName();
-    	int userId = loginUserInfo.getUserId();
+    	int userid = 0;
 
+    	System.out.println("in bzlogin");
   
-    	Map<String, BZUserInfo> users = userManager.getUsers();
-    	if (users != null && users.containsKey(username)) {
-            session.setAttribute("username", users.get(username).getUserName());
-            session.setAttribute("userId", users.get(username).getUserId());
-            System.out.println("userId after login is: " + users.get(username).getUserId());
+    	Map<Integer, BZUserInfo> users = userManager.getUsers();
+    	
+    	if (users != null) {
+    	   	for (BZUserInfo user: users.values()) {
+        		if (user.getUserName().equals(username)) {
+        			userid = user.getUserId();
+        		}
+           	}    		
+    	}
+    	
+    	if (userid != 0) {
+            session.setAttribute("username", users.get(userid).getUserName());
+            session.setAttribute("userid", users.get(userid).getUserId());
+            System.out.println("userid after login is: " + users.get(userid).getUserId());
            return "redirect:/bzbooks";
     		
     	} else {
@@ -70,39 +80,44 @@ public class BZUserInfoController {
 //    	newuser.setPassword(request.getParameter("password"));
     	userManager.setSingleUser(user);
         session.setAttribute("username", user.getUserName());
-        session.setAttribute("userId", user.getUserId());
-        System.out.println("new userId after register is: " + user.getUserId());
+        session.setAttribute("userid", user.getUserId());
+        System.out.println("new userid after register is: " + user.getUserId());
         return "redirect:/bzlogin";
     }
     
-    @RequestMapping(value = "/bzaccountinfo/{username}", method = RequestMethod.GET)
-    public ModelAndView displayAccountInfoForm(HttpSession session, Model model, @PathVariable("username") String username) {
+    @RequestMapping(value = "/bzaccountinfo/{userid}", method = RequestMethod.GET)
+    public ModelAndView displayAccountInfoForm(HttpSession session, Model model, @PathVariable("userid") int userid) {
     	
     	BZUserInfo accountUserInfo = new BZUserInfo();
-    	accountUserInfo = userManager.getSingleUser(username);
-    	if (accountUserInfo != null) {
-    	       session.setAttribute("useraccountinfo", accountUserInfo);   	
-    			model.addAttribute("acctUserInfo",  accountUserInfo);
+    	accountUserInfo = userManager.getSingleUser(userid);
+    	 System.out.println("in bzacctinfo GET, userid is: " + userid);
+     	 System.out.println("in bzacctinfo GET, username is: " + accountUserInfo.getUserName());
+     	 if (accountUserInfo != null) {
+    	       session.setAttribute("bzuserinfo", accountUserInfo);   	
+ //   			model.addAttribute("acctUserInfo",  accountUserInfo);
     	} else {
     		accountUserInfo = new BZUserInfo();
     	}
-        return new ModelAndView("bzaccountinfo", "acctUserInfo", accountUserInfo);    	
+        return new ModelAndView("bzaccountinfo", "BZUserInfo", accountUserInfo);    	
     	
     }
     
     
-    @RequestMapping(value = "/bzaccountinfo/{username}", method = RequestMethod.POST)
+    @RequestMapping(value = "/bzaccountinfo/{userid}", method = RequestMethod.POST)
     public String processAccountInfoForm(HttpSession session, @ModelAttribute BZUserInfo accountUserInfo) {
     	
-    	int userId = accountUserInfo.getUserId();
+    	int userid = accountUserInfo.getUserId();
+ System.out.println("in bzacctinfo, userid is: " + userid);
     	String username = accountUserInfo.getUserName();
+    	 System.out.println("in bzacctinfo, username is: " + username);
     	
 		boolean update = false;
-		Map<String, BZUserInfo> users = userManager.getUsers();
+		Map<Integer, BZUserInfo> users = userManager.getUsers();
 		
-		BZUserInfo user = userManager.getSingleUser(username);
+		BZUserInfo user = userManager.getSingleUser(userid);
 		
 		if (user != null) {
+			 System.out.println("in bzacctinfo, username back from usermananger is: " + user.getUserName());
 			user.setFirstName(accountUserInfo.getFirstName());
 			user.setLastName(accountUserInfo.getLastName());
 			user.setUserName(accountUserInfo.getUserName());
@@ -137,7 +152,7 @@ public class BZUserInfoController {
 			user.setCreditCard2(accountUserInfo.getCreditCard2());
 			session.setAttribute("creditcard2", user.getCreditCard2());
 
-			return "redirect:/bzaccountinfo/{userId}";
+			return "redirect:/bzaccountinfo/" + userid;
 		} else {
 			return "redirect:/bzregister";
 		}

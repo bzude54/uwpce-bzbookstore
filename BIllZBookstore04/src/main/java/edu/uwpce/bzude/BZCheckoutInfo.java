@@ -21,7 +21,7 @@ public class BZCheckoutInfo {
 		this.userinfo = bzuserinfo;
 	}
 
-	public int getCartid() {
+	public int getCartId() {
 		return cart.getCartId();
 	}
 

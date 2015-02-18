@@ -30,30 +30,44 @@ public class BZCheckoutController {
 			this.userManager = usermanager;
 		}
 		
-		@RequestMapping(value = "/showcheckout/{cartid}", method = RequestMethod.GET)
-		public String showcheckout(HttpSession session, @PathVariable("cartid") int cartid, Model model ){
+		@RequestMapping(value = "/bzcheckout/{cartid}", method = RequestMethod.GET)
+		public ModelAndView showCheckout(HttpSession session, @PathVariable("cartid") int cartid, Model model ){
 			
-			System.out.println("in showcart, cartid is: " + cartid);
+			System.out.println("in showcheckout, cartid is: " + cartid);
 			String username = (String) session.getAttribute("username");
-			System.out.println("in showcart, username is: " + username);
-			int userId = (Integer) session.getAttribute("userId");
+			System.out.println("in showcheckout, username is: " + username);
+			int userid = (Integer) session.getAttribute("userid");
 			bzcart = (BZSimpleCart) session.getAttribute("bzcart");
-			System.out.println("in showcart, bzcart id is: " + bzcart.getCartId() + " and qty is: " + bzcart.getCartQty());
-			bzuserinfo = userManager.getSingleUser(username);
-			System.out.println("in showcart, bzuserinfo has username: " + bzuserinfo.getUserName());
+			System.out.println("in showcheckout, bzcart id is: " + bzcart.getCartId() + " and qty is: " + bzcart.getCartQty());
+			bzuserinfo = userManager.getSingleUser(userid);
+			System.out.println("in showcheckout, bzuserinfo has username: " + bzuserinfo.getUserName());
 			
 			bzcheckoutinfo = new BZCheckoutInfo(bzcart, bzuserinfo);
 			System.out.println("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
 			checkoutManager.setCheckoutinfo(bzcheckoutinfo);
-			if (!checkoutManager.validShippingAddress() || !checkoutManager.validCreditCard()) {
-				return "redirect:/bzaccountinfo/{username}";
-			} else {
-				model.addAttribute("bZCheckoutInfo", bzcheckoutinfo);
-				return "redirect:/bzcheckout";
-			}			
 			
-//			return new ModelAndView("bzcheckout", "bZCheckoutInfo", bzcheckoutinfo);
+			return new ModelAndView("bzcheckout", "bZCheckoutInfo", bzcheckoutinfo);
 		}
 
+		@RequestMapping(value = "/bzcheckout/{cartid}", method = RequestMethod.POST)
+		public String processCheckout(HttpSession session, @ModelAttribute BZCheckoutInfo bzcheckoutInfo, Model model) {
+			String username = (String) session.getAttribute("username");
+			System.out.println("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
+			int userid = (Integer) session.getAttribute("userid");
+			checkoutManager.setCheckoutinfo(bzcheckoutinfo);
+			System.out.println("shipping address is: " + checkoutManager.getCheckoutinfo().getUserStreetAddress());
+			System.out.println("credit card1 is: " + checkoutManager.getCheckoutinfo().getUserCreditCard());
+			System.out.println("validshippingaddress is: " + checkoutManager.validShippingAddress());
+			System.out.println("validcreditcard is: " + checkoutManager.validCreditCard());
+			
+			if (!(checkoutManager.validShippingAddress() && checkoutManager.validCreditCard())) {
+				System.out.println("in showcheckout, redirecting to bzaccountinfo with userid: " + userid);
+//				model.addAttribute("userid", userid);
+				return "redirect:/bzaccountinfo/" + userid;
+			} else {
+				model.addAttribute("bZCheckoutInfo", bzcheckoutinfo);
+				return "bzthankyou";
+			}			
+		}
 
 }
