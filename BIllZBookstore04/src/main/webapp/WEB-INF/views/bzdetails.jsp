@@ -24,8 +24,10 @@
 	<tr><td>Book ISBN:</td><td><c:out value="${ bookDetail.ISBN }"/></td></tr>
 	<tr><td>Book Price:</td><td><fmt:formatNumber value="${ bookDetail.price }" type="currency"/></td></tr>
 </table>
-	<p><a href="<c:url value="/addtocart/${ bookDetail.ISBN }"/>">Add this book to your cart.</a></p>
 
+<c:if test="${not empty username}">	
+	<p><a href="<c:url value="/addtocart/${ bookDetail.ISBN }"/>">Add this book to your cart.</a></p>
+</c:if>
 	<p><a href="<c:url value="/bzbooks"/>">return to book list</a></p>
 
 

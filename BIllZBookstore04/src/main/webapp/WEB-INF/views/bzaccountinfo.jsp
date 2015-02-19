@@ -2,13 +2,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><fmt:message key="newreg"/></title>
+    <title><fmt:message key="accountinfotitle"/></title>
 </head>
 <body>
  <%@ include file="bzheader.jsp"%>
  
 <p>Welcome ${ username }, here the info we have on file for you. Please update your information as necessary and submit.</p>
+
+<c:choose>
+<c:when test="${ !checkout }">
 <p>If all your information is correct, please click <a href="<c:url value="/bzbooks"/>">here</a> to return to our book inventory.</p>
+</c:when>
+<c:otherwise>
+<p>You must have a valid, complete shipping address and credit card number in your account information to checkout.</p>
+<p>Once you have completed your information, click <a href="<c:url value="/bzcart"/>">here</a> to checkout.</p>
+</c:otherwise>
+</c:choose>
+
 <form:form method="post" modelAttribute="BZUserInfo" action="bzaccountinfo">
 <div style="width:300px;text-align:right">
 	<form:hidden path="userId"/>

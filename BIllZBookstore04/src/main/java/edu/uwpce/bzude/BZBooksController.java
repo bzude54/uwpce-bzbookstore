@@ -53,8 +53,6 @@ public class BZBooksController {
 	public String bookDetails(Model model, HttpSession session, @RequestParam String id) {
 
         model.addAttribute("username", session.getAttribute("username"));
-
-//        Set<String> keys = bookManager.getBooks().keySet();
         
         BZBook book = bookManager.getSingleBook(id);
         

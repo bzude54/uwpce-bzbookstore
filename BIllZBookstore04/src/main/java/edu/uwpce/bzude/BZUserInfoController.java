@@ -27,8 +27,8 @@ public class BZUserInfoController {
 
     @RequestMapping(value = "/bzlogin", method = RequestMethod.GET)
     public ModelAndView displayLoginForm() {
-
-        // This is a shortcut if we only have one attribute to put in our model
+    	
+    	
         return new ModelAndView("bzlogin", "loginUserInfo", new BZUserInfo()); 
     }
 
@@ -36,11 +36,12 @@ public class BZUserInfoController {
     public String processLogin(HttpSession session,
                                @ModelAttribute BZUserInfo loginUserInfo) {
     	
-//    	String username = request.getParameter("userName");
     	String username = loginUserInfo.getUserName();
     	int userid = 0;
+    	session.setAttribute("checkout", false);
+    	session.setAttribute("numCartItems", 0);
 
-    	System.out.println("in bzlogin");
+ //   	System.out.println("in bzlogin");
   
     	Map<Integer, BZUserInfo> users = userManager.getUsers();
     	
@@ -55,7 +56,7 @@ public class BZUserInfoController {
     	if (userid != 0) {
             session.setAttribute("username", users.get(userid).getUserName());
             session.setAttribute("userid", users.get(userid).getUserId());
-            System.out.println("userid after login is: " + users.get(userid).getUserId());
+//            System.out.println("userid after login is: " + users.get(userid).getUserId());
            return "redirect:/bzbooks";
     		
     	} else {
@@ -75,13 +76,10 @@ public class BZUserInfoController {
     public String processRegister(HttpSession session,
                                @ModelAttribute BZUserInfo user) {
 
-//    	BZUserInfo newuser = new BZUserInfo();
-//    	newuser.setUserName(request.getParameter("userName"));
-//    	newuser.setPassword(request.getParameter("password"));
     	userManager.setSingleUser(user);
         session.setAttribute("username", user.getUserName());
         session.setAttribute("userid", user.getUserId());
-        System.out.println("new userid after register is: " + user.getUserId());
+ //     System.out.println("new userid after register is: " + user.getUserId());
         return "redirect:/bzlogin";
     }
     
@@ -90,11 +88,10 @@ public class BZUserInfoController {
     	
     	BZUserInfo accountUserInfo = new BZUserInfo();
     	accountUserInfo = userManager.getSingleUser(userid);
-    	 System.out.println("in bzacctinfo GET, userid is: " + userid);
-     	 System.out.println("in bzacctinfo GET, username is: " + accountUserInfo.getUserName());
+//    	 System.out.println("in bzacctinfo GET, userid is: " + userid);
+//     	 System.out.println("in bzacctinfo GET, username is: " + accountUserInfo.getUserName());
      	 if (accountUserInfo != null) {
     	       session.setAttribute("bzuserinfo", accountUserInfo);   	
- //   			model.addAttribute("acctUserInfo",  accountUserInfo);
     	} else {
     		accountUserInfo = new BZUserInfo();
     	}
@@ -107,9 +104,9 @@ public class BZUserInfoController {
     public String processAccountInfoForm(HttpSession session, @ModelAttribute BZUserInfo accountUserInfo) {
     	
     	int userid = accountUserInfo.getUserId();
- System.out.println("in bzacctinfo, userid is: " + userid);
+//		System.out.println("in bzacctinfo, userid is: " + userid);
     	String username = accountUserInfo.getUserName();
-    	 System.out.println("in bzacctinfo, username is: " + username);
+//    	 System.out.println("in bzacctinfo, username is: " + username);
     	
 		boolean update = false;
 		Map<Integer, BZUserInfo> users = userManager.getUsers();
@@ -117,7 +114,7 @@ public class BZUserInfoController {
 		BZUserInfo user = userManager.getSingleUser(userid);
 		
 		if (user != null) {
-			 System.out.println("in bzacctinfo, username back from usermananger is: " + user.getUserName());
+//			 System.out.println("in bzacctinfo, username back from usermananger is: " + user.getUserName());
 			user.setFirstName(accountUserInfo.getFirstName());
 			user.setLastName(accountUserInfo.getLastName());
 			user.setUserName(accountUserInfo.getUserName());

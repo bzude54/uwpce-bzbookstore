@@ -19,7 +19,7 @@
 <c:otherwise>
 <form:form method="POST" modelAttribute="bZSimpleCart" action="bzcart">
 	<c:forEach var="cartItems" items="${ bZSimpleCart.cartItems }" varStatus="idx">
-        <table border="1" style="border:1px solid blue; padding:2px; text-align:center;">
+        <table border="1" style="width:80%; border:1px solid blue; padding:2px; text-align:center;">
      		<tbody>
      			<tr>
         			<th>Item ISBN</th>
@@ -55,7 +55,8 @@
         	</tr>
  
        </table>
-    <input type="submit"/>
+       <br /><br />
+    <input type="submit" value="Update Cart"/>
 </form:form>
 
 <p>Click <a href="<c:url value="/bzcheckout/${ bZSimpleCart.cartId }"/>">here</a> to proceed to checkout.</p>

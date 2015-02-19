@@ -38,25 +38,26 @@ public class BZCartController {
 	public String addItemToCart(HttpSession session,
 			@PathVariable("bookid") String bookid) {
 
-		System.out.println("addItemTOCart bookid: " + bookid);
+//		System.out.println("addItemTOCart bookid: " + bookid);
 		int userid = (Integer) session.getAttribute("userid");
-		System.out.println("userid is: " + userid);
+//		System.out.println("userid is: " + userid);
 		bzcart = cartManager.getSingleCart(userid);
 		BZSimpleCartItem cartItem = bzcart.getSingleCartItem(bookid);
 		if (cartItem != null) {
 			cartItem.incrementCartItemQty();
 		} else {
-			System.out.println("cartItem IS null!");
+//			System.out.println("cartItem IS null!");
 			cartItem = new BZSimpleCartItem(bookManager.getSingleBook(bookid));
-			System.out.println("cartItem has an id: "
-					+ cartItem.getCartItemId());
+//			System.out.println("cartItem has an id: " + cartItem.getCartItemId());
 			bzcart.setSingleCartItem(cartItem);
 		}
 
 		logger.info("cartItem - " + cartItem.toString());
-		System.out.println("added book to cart for: " + userid
+/*		System.out.println("added book to cart for: " + userid
 				+ " belonging to: " + bzcart.getCartId());
+*/		
 		session.setAttribute("addcartitem", cartItem);
+		session.setAttribute("numCartItems", bzcart.getCartQty());
 
 		return "redirect:/confirmcartadd";
 	}
@@ -74,24 +75,16 @@ public class BZCartController {
 
 		int userid = (Integer) session.getAttribute("userid");
 		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getSingleCart(userid);
-		if (bzcart != null) {
+/*		if (bzcart != null) {
 			System.out.println("cartID in showcart is: " + bzcart.getCartId());
 			for (BZCartItem item : bzcart.getCartItems()) {
 				System.out.println("itemID in showcart is: " + item.getCartItemId());
 			}
 		}
-
-		/*
-		 * for (Map.Entry<String, BZCartItem> entry : cart.getCart().entrySet())
-		 * { System.out.println("book ISBN in cart: " +
-		 * entry.getValue().getCartItemBook().getISBN() + " qty: " +
-		 * entry.getValue().getCartItemQty()); }
-		 */
-		/*
-		 * model.addAttribute("cart", cart); model.addAttribute("cartMap",
-		 * cart.getCart());
-		 */
+*/
 		session.setAttribute("bzcart", bzcart);
+		session.setAttribute("numCartItems", bzcart.getCartQty());
+
 
 		return new ModelAndView("bzcart", "bZSimpleCart", bzcart);
 	}
@@ -100,14 +93,15 @@ public class BZCartController {
 	public String updateCart(HttpSession session,
 			@ModelAttribute BZSimpleCart bzcart) {
 
-		System.out.println("returning from cart");
+//		System.out.println("returning from cart");
 		BZSimpleCart checkcart = (BZSimpleCart) session.getAttribute("bzcart");
-		System.out.println("checkcart: " + checkcart.getCartId());
+//		System.out.println("checkcart: " + checkcart.getCartId());
 		for (BZSimpleCartItem item : bzcart.getCartItems()) {
-			System.out.println("book ISBN in cart: "
+/*			System.out.println("book ISBN in cart: "
 					+ item.getCartItemId() + " Total price: " + item.getCartItemTotalPrice() + " qty: "
 					+ item.getCartItemQty());
-            if (item.getCartItemQty() > 0) {
+*/            
+			if (item.getCartItemQty() > 0) {
                 checkcart.getSingleCartItem(item.getCartItemId()).setCartItemQty(item.getCartItemQty());
             } else {
                 checkcart.setCartItemQty(item.getCartItemId(), 0);
@@ -115,7 +109,8 @@ public class BZCartController {
 		}
 
 		cartManager.setSingleCart(checkcart);
-	        session.setAttribute("bzcart", checkcart);
+	    session.setAttribute("bzcart", checkcart);
+		session.setAttribute("numCartItems", checkcart.getCartQty());
 	        
 		return "redirect:bzcart";
 	}
