@@ -4,8 +4,7 @@
 	<title><fmt:message key="thankyoutitle"/></title>
 </head>
 <body>
-<%@ include file="bzheader.jsp"%>
-
+<br />
 <br />
 
 <h1>

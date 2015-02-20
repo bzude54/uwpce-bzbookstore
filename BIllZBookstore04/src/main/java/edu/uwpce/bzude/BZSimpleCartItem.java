@@ -1,6 +1,11 @@
 package edu.uwpce.bzude;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BZSimpleCartItem implements BZCartItem {
+	
+    private static final Logger logger = LoggerFactory.getLogger(BZSimpleCartItem.class);
 	
 	private String cartItemId;
 	private int cartItemQty;
@@ -29,7 +34,7 @@ public class BZSimpleCartItem implements BZCartItem {
 	@Override
 	public void setCartItemId(String itemId) {
 			this.cartItemId = itemId;
-			System.out.println("in setCartItemId setting id to: " + this.cartItemId);
+			logger.info("in setCartItemId setting id to: " + this.cartItemId);
 	}
 
 	@Override
@@ -60,7 +65,7 @@ public class BZSimpleCartItem implements BZCartItem {
 
 	@Override
 	public void setCartItemBook(BZBook book) {
-		System.out.println("in setCartItemBook with book: " + book.getTitle());
+		logger.info("in setCartItemBook with book: " + book.getTitle());
 		this.cartItemBook = book;
 		this.cartItemId = book.getISBN();
 	}

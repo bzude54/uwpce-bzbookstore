@@ -3,7 +3,12 @@ package edu.uwpce.bzude;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BZSimpleBookManager implements BZBookManager {
+
+	private static final Logger logger = LoggerFactory.getLogger(BZSimpleBookManager.class);
 
 	private Map<String, BZBook> books;
 	
@@ -17,7 +22,7 @@ public class BZSimpleBookManager implements BZBookManager {
 
 	@Override
 	public Map<String, BZBook> getBooks() {
-//		System.out.println("Getting books from BZSimpleBookManager");
+//		logger.info("Getting books from BZSimpleBookManager");
 		return books;
 	}
 

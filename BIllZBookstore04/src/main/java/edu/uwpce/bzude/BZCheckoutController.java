@@ -33,16 +33,16 @@ public class BZCheckoutController {
 		@RequestMapping(value = "/bzcheckout/{cartid}", method = RequestMethod.GET)
 		public ModelAndView showCheckout(HttpSession session, @PathVariable("cartid") int cartid, Model model ){
 			
-//			System.out.println("in showcheckout, cartid is: " + cartid);
+//			logger.info("in showcheckout, cartid is: " + cartid);
 			String username = (String) session.getAttribute("username");
-//			System.out.println("in showcheckout, username is: " + username);
+//			logger.info("in showcheckout, username is: " + username);
 			int userid = (Integer) session.getAttribute("userid");
 			bzcart = (BZSimpleCart) session.getAttribute("bzcart");
-//			System.out.println("in showcheckout, bzcart id is: " + bzcart.getCartId() + " and qty is: " + bzcart.getCartQty());
+//			logger.info("in showcheckout, bzcart id is: " + bzcart.getCartId() + " and qty is: " + bzcart.getCartQty());
 			bzuserinfo = userManager.getSingleUser(userid);
-//			System.out.println("in showcheckout, bzuserinfo has username: " + bzuserinfo.getUserName());
+//			logger.info("in showcheckout, bzuserinfo has username: " + bzuserinfo.getUserName());
 			bzcheckoutinfo = new BZCheckoutInfo(bzcart, bzuserinfo);
-//			System.out.println("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
+//			logger.info("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
 			checkoutManager.setCheckoutinfo(bzcheckoutinfo);
 			session.setAttribute("checkout", true);
 			session.setAttribute("numCartItems", bzcart.getCartQty());
@@ -51,26 +51,46 @@ public class BZCheckoutController {
 		}
 
 		@RequestMapping(value = "/bzcheckout/{cartid}", method = RequestMethod.POST)
-		public String processCheckout(HttpSession session, @ModelAttribute BZCheckoutInfo bzcheckoutInfo, Model model) {
+		public String processCheckout(HttpSession session, @ModelAttribute BZCheckoutInfo bZCheckoutInfo, @PathVariable("cartid") int cartid, Model model) {
 
 			String username = (String) session.getAttribute("username");
-//			System.out.println("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
+//			logger.info("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
 			int userid = (Integer) session.getAttribute("userid");
-			checkoutManager.setCheckoutinfo(bzcheckoutinfo);
-/*			System.out.println("shipping address is: " + checkoutManager.getCheckoutinfo().getUserStreetAddress());
-			System.out.println("credit card1 is: " + checkoutManager.getCheckoutinfo().getUserCreditCard());
-			System.out.println("validshippingaddress is: " + checkoutManager.validShippingAddress());
-			System.out.println("validcreditcard is: " + checkoutManager.validCreditCard());
-*/			
+			BZCheckoutInfo checkoutinfo = checkoutManager.getCheckoutinfo();
+			if (checkoutinfo != null) {
+				checkoutinfo.setUserStreetAddress(bZCheckoutInfo.getUserStreetAddress());
+				checkoutinfo.setUserCity(bZCheckoutInfo.getUserCity());
+				checkoutinfo.setUserState(bZCheckoutInfo.getUserState());
+				checkoutinfo.setUserZip(bZCheckoutInfo.getUserZip());
+				checkoutinfo.setUserCreditCard(bZCheckoutInfo.getUserCreditCard());
+			}
+			checkoutManager.setCheckoutinfo(checkoutinfo);
+//			logger.info("shipping address is: " + checkoutManager.getCheckoutinfo().getUserStreetAddress());
+//			logger.info("credit card1 is: " + checkoutManager.getCheckoutinfo().getUserCreditCard());
+//			logger.info("validshippingaddress is: " + checkoutManager.validShippingAddress());
+//			logger.info("validcreditcard is: " + checkoutManager.validCreditCard());
+			
 			session.setAttribute("numCartItems", bzcart.getCartQty());
 
 			if (!(checkoutManager.validShippingAddress() && checkoutManager.validCreditCard())) {
-//				model.addAttribute("userid", userid);
 				return "redirect:/bzaccountinfo/" + userid;
 			} else {
-				model.addAttribute("bZCheckoutInfo", bzcheckoutinfo);
-				return "bzthankyou";
+				model.addAttribute("bZCheckoutInfo", checkoutManager.getCheckoutinfo());
+				return "redirect:/bzcheckout/" + userid;
 			}			
+		}
+		
+		
+		@RequestMapping(value = "/bzthankyou", method = RequestMethod.GET)
+		public String confirmCheckout(HttpSession session) {
+			
+			int userid = (Integer) session.getAttribute("userid");
+
+			if (!(checkoutManager.validShippingAddress() && checkoutManager.validCreditCard())) {
+				return "redirect:/bzaccountinfo/" + userid;
+			} else {
+				return "bzthankyou";
+			}
 		}
 
 }

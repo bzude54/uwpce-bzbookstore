@@ -1,10 +1,13 @@
 package edu.uwpce.bzude;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BZSimpleCheckoutManager implements BZCheckoutManager {
-
-
-	private BZCheckoutInfo checkoutinfo;
 	
+    private static final Logger logger = LoggerFactory.getLogger(BZSimpleCheckoutManager.class);
+
+    private BZCheckoutInfo checkoutinfo;
 	
 
 	@Override

@@ -51,13 +51,13 @@ public class BZSimpleCart implements BZCart {
 
 	@Override
 	public BZSimpleCartItem getSingleCartItem(String itemId) {
-		System.out.println("in getsinglecartitem itemId is: " + itemId);
+		logger.info("in getsinglecartitem itemId is: " + itemId);
 		BZSimpleCartItem cartItem = null;
 		if (itemId != null) {
 			for (BZSimpleCartItem item : cartItems) {
 				if (itemId.equals(item.getCartItemBook().getISBN())) {
 					cartItem = item;
-					System.out.println("in getsinglecartitem found cartitem matching itemId: " + item.getCartItemBook().getISBN());
+					logger.info("in getsinglecartitem found cartitem matching itemId: " + item.getCartItemBook().getISBN());
 				}
 			}
 		}
@@ -67,9 +67,9 @@ public class BZSimpleCart implements BZCart {
 	@Override
 	public void setSingleCartItem(BZSimpleCartItem item) {
 		if (item != null) {
-			System.out.println("adding BZCartItem to BZCart!");
+			logger.info("adding BZCartItem to BZCart!");
 			cartItems.add(item);
-			System.out.println("added: " + item.getCartItemBook().getISBN());
+			logger.info("added: " + item.getCartItemBook().getISBN());
 		}
 	}
 
@@ -125,7 +125,7 @@ public class BZSimpleCart implements BZCart {
 	@Override
 	public double getCartShippingCost() {
 		double shippingCost = 0.0;
-		System.out.println("in get CartShoippingCost cart qty is: " + this.getCartQty());
+		logger.info("in get CartShippingCost cart qty is: " + this.getCartQty());
 		if (this.getCartQty() > 0) {
 			if (this.getCartQty() >= SHIPPING_QTY_THRESHOLD) {
 				shippingCost = SHIPPING_COST_OVER_THRESHOLD;

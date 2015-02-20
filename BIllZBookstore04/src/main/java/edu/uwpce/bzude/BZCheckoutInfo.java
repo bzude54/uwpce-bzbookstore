@@ -3,22 +3,33 @@ package edu.uwpce.bzude;
 public class BZCheckoutInfo {
 	
 	private BZSimpleCart cart;
-	private BZUserInfo userinfo;
+	private BZUserInfo userInfo;
 	
-	public BZCheckoutInfo(){}
+	public BZCheckoutInfo(){
+		this.cart = new BZSimpleCart();
+		this.userInfo = new BZUserInfo();
+	}
 	
 	public BZCheckoutInfo(BZSimpleCart bzcart, BZUserInfo bzuserinfo) {
-		this.userinfo = bzuserinfo;
+		this.userInfo = bzuserinfo;
 		this.cart = bzcart;
 	}
 
 	
-	public BZUserInfo getUserInfo() {
-		return userinfo;
+	public BZSimpleCart getCart() {
+		return cart;
 	}
 
-	public void setUserInfo(BZUserInfo bzuserinfo) {
-		this.userinfo = bzuserinfo;
+	public void setCart(BZSimpleCart cart) {
+		this.cart = cart;
+	}
+
+	public BZUserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(BZUserInfo userinfo) {
+		this.userInfo = userinfo;
 	}
 
 	public int getCartId() {
@@ -30,27 +41,48 @@ public class BZCheckoutInfo {
 	}
 
 	public String getUserStreetAddress() {
-		return userinfo.getShippingStreetAddress();
+		return userInfo.getShippingStreetAddress();
 	}
-
+	
+	public void setUserStreetAddress(String streetaddr)	{
+		this.userInfo.setShippingStreetAddress(streetaddr);
+	}
 
 	public String getUserCity() {
-		return userinfo.getShippingCity();
+		return userInfo.getShippingCity();
+	}
+	
+	public void setUserCity(String city)	{
+		this.userInfo.setShippingCity(city);
 	}
 
+
 	public String getUserState() {
-		return userinfo.getShippingState();
+		return userInfo.getShippingState();
+	}
+	
+	public void setUserState(String state)	{
+		this.userInfo.setShippingState(state);
 	}
 
 
 	public String getUserZip() {
-		return userinfo.getShippingZip();
+		return userInfo.getShippingZip();
+	}
+	
+	public void setUserZip(String zip)	{
+		this.userInfo.setShippingZip(zip);
 	}
 
 
 	public String getUserCreditCard() {
-		return userinfo.getCreditCard1();
+		return userInfo.getCreditCard1();
 	}
+	
+	public void setUserCreditCard(String card)	{
+		this.userInfo.setCreditCard1(card);
+	}
+
 
 
 

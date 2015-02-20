@@ -38,22 +38,22 @@ public class BZCartController {
 	public String addItemToCart(HttpSession session,
 			@PathVariable("bookid") String bookid) {
 
-//		System.out.println("addItemTOCart bookid: " + bookid);
+//		logger.info("addItemTOCart bookid: " + bookid);
 		int userid = (Integer) session.getAttribute("userid");
-//		System.out.println("userid is: " + userid);
+//		logger.info("userid is: " + userid);
 		bzcart = cartManager.getSingleCart(userid);
 		BZSimpleCartItem cartItem = bzcart.getSingleCartItem(bookid);
 		if (cartItem != null) {
 			cartItem.incrementCartItemQty();
 		} else {
-//			System.out.println("cartItem IS null!");
+//			logger.info("cartItem IS null!");
 			cartItem = new BZSimpleCartItem(bookManager.getSingleBook(bookid));
-//			System.out.println("cartItem has an id: " + cartItem.getCartItemId());
+//			logger.info("cartItem has an id: " + cartItem.getCartItemId());
 			bzcart.setSingleCartItem(cartItem);
 		}
 
 		logger.info("cartItem - " + cartItem.toString());
-/*		System.out.println("added book to cart for: " + userid
+/*		logger.info("added book to cart for: " + userid
 				+ " belonging to: " + bzcart.getCartId());
 */		
 		session.setAttribute("addcartitem", cartItem);
@@ -76,9 +76,9 @@ public class BZCartController {
 		int userid = (Integer) session.getAttribute("userid");
 		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getSingleCart(userid);
 /*		if (bzcart != null) {
-			System.out.println("cartID in showcart is: " + bzcart.getCartId());
+			logger.info("cartID in showcart is: " + bzcart.getCartId());
 			for (BZCartItem item : bzcart.getCartItems()) {
-				System.out.println("itemID in showcart is: " + item.getCartItemId());
+				logger.info("itemID in showcart is: " + item.getCartItemId());
 			}
 		}
 */
@@ -93,11 +93,11 @@ public class BZCartController {
 	public String updateCart(HttpSession session,
 			@ModelAttribute BZSimpleCart bzcart) {
 
-//		System.out.println("returning from cart");
+//		logger.info("returning from cart");
 		BZSimpleCart checkcart = (BZSimpleCart) session.getAttribute("bzcart");
-//		System.out.println("checkcart: " + checkcart.getCartId());
+//		logger.info("checkcart: " + checkcart.getCartId());
 		for (BZSimpleCartItem item : bzcart.getCartItems()) {
-/*			System.out.println("book ISBN in cart: "
+/*			logger.info("book ISBN in cart: "
 					+ item.getCartItemId() + " Total price: " + item.getCartItemTotalPrice() + " qty: "
 					+ item.getCartItemQty());
 */            

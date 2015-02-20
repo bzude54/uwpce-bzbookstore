@@ -5,12 +5,18 @@ import java.io.Serializable;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BZUserInfo implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1450741177243238042L;
+	
+    private static final Logger logger = LoggerFactory.getLogger(BZUserInfo.class);
+
 	
 	private int userId;
 	
