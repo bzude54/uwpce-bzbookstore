@@ -28,13 +28,14 @@ public class BZBooksController {
 	private static final Logger logger = LoggerFactory.getLogger(BZBooksController.class);
 	
 	
+	@Autowired
 	private BZBookManager bookManager;
 	
-	@Resource(name="bookManager")
+/*	@Resource(name="bookManager")
 	public void setBookManager(BZBookManager bookManager) {
 		this.bookManager = bookManager;
 	}
-	
+*/	
 	
 	
 	/**

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,13 +24,15 @@ public class BZCartController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(BZCartController.class);
 
+	@Autowired
 	private BZCartManager cartManager;
+	
+	@Autowired
 	private BZBookManager bookManager;
+	
 	private BZCart bzcart = new BZSimpleCart();
 
-	// private BZCartItem cartItem;
-
-	@Resource(name = "bookManager")
+/*	@Resource(name = "bookManager")
 	public void setBookManager(BZBookManager bookManager) {
 		this.bookManager = bookManager;
 	}
@@ -39,7 +42,7 @@ public class BZCartController {
 		this.cartManager = cartmanager;
 	}
 
-
+*/
 	@RequestMapping(value = "/addtocart/{bookid}", method = RequestMethod.GET)
 	public String addItemToCart(HttpSession session,
 			@PathVariable("bookid") String bookid) {

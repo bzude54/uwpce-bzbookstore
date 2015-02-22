@@ -20,13 +20,16 @@ public class BZCheckoutController {
 	   private static final Logger logger = LoggerFactory.getLogger(BZCheckoutController.class);
 		
 		
+		@Autowired
 		private BZUserManager userManager;
 		
+		@Autowired
 		private BZCartManager cartManager;
 		
+		@Autowired
 		private BZCheckoutInfoValidator checkoutValidator;
 
-		@Resource(name="userManager")
+/*		@Resource(name="userManager")
 		public void setUserManager(BZUserManager usermanager) {
 			this.userManager = usermanager;
 		}
@@ -40,7 +43,7 @@ public class BZCheckoutController {
 		public void setCheckouotValidator(BZCheckoutInfoValidator infovalidator) {
 			this.checkoutValidator = infovalidator;
 		}
-
+*/
 		
 		
 		@RequestMapping(value = "/bzcheckout/{cartid}", method = RequestMethod.GET)
