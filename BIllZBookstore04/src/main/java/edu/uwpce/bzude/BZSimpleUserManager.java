@@ -1,6 +1,7 @@
 package edu.uwpce.bzude;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,7 @@ public class BZSimpleUserManager implements BZUserManager {
     private static final Logger logger = LoggerFactory.getLogger(BZSimpleUserManager.class);
 	
 	private static int USERID = 100;
-	private Map<Integer, BZUserInfo> users;
+	private Map<Integer, BZUserInfo> users = new ConcurrentHashMap<>();
 		
 
 	@Override

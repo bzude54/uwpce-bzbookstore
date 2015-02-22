@@ -3,8 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="simpleCartManager" class="edu.uwpce.bzude.BZSimpleCartManager">
+	<bean id="cartManager" class="edu.uwpce.bzude.BZSimpleCartManager">
 	</bean>
+	
+	<bean id="checkoutValidator" class="edu.uwpce.bzude.BZSimpleCheckoutInfoValidator">
+	</bean>
+	
 	
 
 </beans>

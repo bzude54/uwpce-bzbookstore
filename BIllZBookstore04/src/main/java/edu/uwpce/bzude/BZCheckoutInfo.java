@@ -2,7 +2,7 @@ package edu.uwpce.bzude;
 
 public class BZCheckoutInfo {
 	
-	private BZSimpleCart cart;
+	private BZCart cart;
 	private BZUserInfo userInfo;
 	
 	public BZCheckoutInfo(){
@@ -10,13 +10,13 @@ public class BZCheckoutInfo {
 		this.userInfo = new BZUserInfo();
 	}
 	
-	public BZCheckoutInfo(BZSimpleCart bzcart, BZUserInfo bzuserinfo) {
+	public BZCheckoutInfo(BZCart bzcart, BZUserInfo bzuserinfo) {
 		this.userInfo = bzuserinfo;
 		this.cart = bzcart;
 	}
 
 	
-	public BZSimpleCart getCart() {
+	public BZCart getCart() {
 		return cart;
 	}
 

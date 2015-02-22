@@ -25,7 +25,7 @@ public class BZUserInfoController {
 	
 	private BZUserManager userManager;
 	
-	@Resource(name="simpleUserManager")
+	@Resource(name="userManager")
 	public void setUserManager(BZUserManager usermanager) {
 		this.userManager = usermanager;
 	}

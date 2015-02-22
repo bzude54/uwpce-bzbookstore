@@ -30,7 +30,7 @@ public class BZBooksController {
 	
 	private BZBookManager bookManager;
 	
-	@Resource(name="simpleBookManager")
+	@Resource(name="bookManager")
 	public void setBookManager(BZBookManager bookManager) {
 		this.bookManager = bookManager;
 	}

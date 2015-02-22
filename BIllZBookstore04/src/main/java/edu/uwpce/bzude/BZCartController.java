@@ -23,16 +23,22 @@ public class BZCartController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(BZCartController.class);
 
-	private BZCartManager cartManager = new BZSimpleCartManager();;
+	private BZCartManager cartManager;
 	private BZBookManager bookManager;
 	private BZCart bzcart = new BZSimpleCart();
 
 	// private BZCartItem cartItem;
 
-	@Resource(name = "simpleBookManager")
+	@Resource(name = "bookManager")
 	public void setBookManager(BZBookManager bookManager) {
 		this.bookManager = bookManager;
 	}
+	
+	@Resource(name="cartManager")
+	public void setCartManager(BZCartManager cartmanager) {
+		this.cartManager = cartmanager;
+	}
+
 
 	@RequestMapping(value = "/addtocart/{bookid}", method = RequestMethod.GET)
 	public String addItemToCart(HttpSession session,

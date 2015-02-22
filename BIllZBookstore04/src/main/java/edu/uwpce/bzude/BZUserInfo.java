@@ -52,6 +52,7 @@ public class BZUserInfo implements Serializable{
 	@Pattern(regexp="\\d{16}")	
 	private String creditCard2;
 	
+	public BZUserInfo() {}
 	
 	
 	public int getUserId() {
