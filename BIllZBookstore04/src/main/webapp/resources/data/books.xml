@@ -13,6 +13,9 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="bookReviewManager" class="edu.uwpce.bzude.BZSimpleBookReviewManager">
+	</bean>
 
 	<bean id="book1" class="edu.uwpce.bzude.BZBook">
 		<property name="ISBN" value="978-0441569595" />
@@ -53,5 +56,12 @@
 		<property name="image" value="ilminnovation" />
 		<property name="price" value="57.50" />
 	</bean>
+	
+	
+	<bean id="review1" class="edu.uwpce.bzude.BZBookReview">
+		<property name="reviewIsbn" value="978-0810998025" />
+		<property name="reviewText" value="crazy interesting and awesome photos" />
+	</bean>
+	
 
 </beans>

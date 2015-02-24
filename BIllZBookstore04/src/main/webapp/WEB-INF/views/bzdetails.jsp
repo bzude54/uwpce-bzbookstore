@@ -2,6 +2,49 @@
 <html>
 <head>
 	<title><fmt:message key="detailspage"/></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<style type="text/css">
+
+.readreviews {
+	font-size:16px;
+	color: green;
+	margin:5px 0;
+}
+
+.reviewtext {
+	border:1px dashed green;
+	margin:5px 0;
+	padding:5px;
+}
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+        $('div.readreviews').click(function() {
+            $.ajax({
+                type : 'POST',
+                url : 'reviews',
+                data : {
+                    'isbn':'${ bookDetail.ISBN }'
+                },
+                dataType : "json",
+                cache : 'false',
+                success : function(response) {
+                	$.each(response, function(idx, obj) {
+                		alert(obj.reviewUuid);
+                		$('div.reviewtext').append(obj.reviewText);
+                	});                   
+                },
+                error : function() {
+                    alert('Whoops');
+                }
+            });  
+        });
+    });
+</script>
+
 </head>
 <body>
 <%@ include file="bzheader.jsp"%>
@@ -29,6 +72,9 @@
 	<p><a href="<c:url value="/addtocart/${ bookDetail.ISBN }"/>">Add this book to your cart.</a></p>
 </c:if>
 	<p><a href="<c:url value="/bzbooks"/>">return to book list</a></p>
+	
+	<div class="readreviews">Read reviews.</div>
+	<div class="reviewtext"></div>
 
 
 </body>
