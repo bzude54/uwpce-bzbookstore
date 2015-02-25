@@ -31,10 +31,10 @@
                 },
                 dataType : "json",
                 cache : 'false',
-                success : function(response) {
+                success : function(response) {                	
                 	$.each(response, function(idx, obj) {
-                		alert(obj.reviewUuid);
-                		$('div.reviewtext').append(obj.reviewText);
+                		var reviewtext = $("<p></p>").text(obj.reviewText);
+                		$('div.reviewtext').append(reviewtext);
                 	});                   
                 },
                 error : function() {
@@ -73,8 +73,19 @@
 </c:if>
 	<p><a href="<c:url value="/bzbooks"/>">return to book list</a></p>
 	
-	<div class="readreviews">Read reviews.</div>
+	<div class="readreviews">Click here to read reviews.</div>
 	<div class="reviewtext"></div>
+	
+	<br /><br />
+	
+
+	<form:form method="POST" modelAttribute="bZBookReview" action="postreview/${ bookDetail.ISBN }">
+		<table>
+		<tr><td><form:label path="reviewText">Enter your book review.</form:label></td><td><form:textarea path="reviewText"/></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td colspan="2"><input type="submit" value="Post your review"/></td></tr>
+		</table>
+	</form:form>
 
 
 </body>

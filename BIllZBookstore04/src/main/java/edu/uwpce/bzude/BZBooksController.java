@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,8 +41,8 @@ public class BZBooksController {
 	@Autowired
 	private BZBookReviewManager bookReviewManager;
 	
-	@Value("classpath:defaultreviews.json")
-	Resource defaultreviews = ctx.;
+//	@Value("classpath:defaultreviews.json")
+//	Resource defaultreviews;
 	
 
 	
@@ -67,6 +69,7 @@ public class BZBooksController {
         if (book != null)
         {
         	model.addAttribute("bookDetail", book);
+        	model.addAttribute("bZBookReview", new BZBookReview());
     		return "bzdetails";
         } else {
             return "redirect:";
@@ -76,8 +79,8 @@ public class BZBooksController {
 	
 	
     @ResponseBody
-    @RequestMapping(value="/reviews", method=RequestMethod.POST)
-    public List<BZBookReview> getBookReviews(@RequestParam String isbn) {
+    @RequestMapping(value = "/reviews", method = RequestMethod.POST)
+    public List<BZBookReview> getBookReviews(@RequestParam String isbn, Model model) {
         logger.info("ISBN from ajax = " + isbn);
         List<BZBookReview> reviews = new ArrayList<BZBookReview>();
 //        reviews = bookReviewManager.getBookReviews(isbn);
@@ -90,18 +93,47 @@ public class BZBooksController {
     	reviews.add(newreview3);
     	BZBookReview newreview4 = new BZBookReview(isbn, "My fourth review", new Date());
     	reviews.add(newreview4);
+    	bookReviewManager.setBookReviews(reviews);
 //        }
 //        BZBookReview review = reviews.get(0);
-        logger.info("review text1 = " + reviews.get(0).getReviewText());
-        logger.info("review uuid1 = " + reviews.get(0).getReviewUuid());
-        logger.info("review text2 = " + reviews.get(1).getReviewText());
-        logger.info("review uuid2 = " + reviews.get(1).getReviewUuid());
-        logger.info("review text3 = " + reviews.get(2).getReviewText());
-        logger.info("review uuid3 = " + reviews.get(2).getReviewUuid());
-        logger.info("review text4 = " + reviews.get(3).getReviewText());
-        logger.info("review uuid4 = " + reviews.get(3).getReviewUuid());
+    	List<BZBookReview> managerreviews = bookReviewManager.getBookReviews(isbn);
+        logger.info("managerreviews text1 = " + managerreviews.get(0).getReviewText());
+        logger.info("managerreviews uuid1 = " + managerreviews.get(0).getReviewUuid());
+        logger.info("managerreviews text2 = " + managerreviews.get(1).getReviewText());
+        logger.info("managerreviews uuid2 = " + managerreviews.get(1).getReviewUuid());
+        logger.info("managerreviews text3 = " + managerreviews.get(2).getReviewText());
+        logger.info("managerreviews uuid3 = " + managerreviews.get(2).getReviewUuid());
+        logger.info("managerreviews text4 = " + managerreviews.get(3).getReviewText());
+        logger.info("managerreviews uuid4 = " + managerreviews.get(3).getReviewUuid());
+ //       model.addAttribute("bZBookReview", new BZBookReview());
         return reviews;
     }
+    
+    
+    @RequestMapping(value = "/postreview/{bookIsbn}", method = RequestMethod.POST)
+    public String postReview(HttpSession session, @ModelAttribute BZBookReview review, @PathVariable("bookIsbn") String bookIsbn) {
+    	BZBookReview newreview = new BZBookReview(bookIsbn, review.getReviewText(), new Date());
+//    	newreview.setReviewIsbn(bookIsbn);
+//    	newreview.setReviewText(review.getReviewText());
+//    	newreview.setTimeStamp(new Date());
+    	bookReviewManager.addBookReview(newreview);
+       	List<BZBookReview> managerreviews = bookReviewManager.getBookReviews(bookIsbn);
+        logger.info("managerreviews from post text1 = " + managerreviews.get(0).getReviewText());
+        logger.info("managerreviews from post uuid1 = " + managerreviews.get(0).getReviewUuid());
+        logger.info("managerreviews from post text2 = " + managerreviews.get(1).getReviewText());
+        logger.info("managerreviews from post uuid2 = " + managerreviews.get(1).getReviewUuid());
+        logger.info("managerreviews from post text3 = " + managerreviews.get(2).getReviewText());
+        logger.info("managerreviews from post  uuid3 = " + managerreviews.get(2).getReviewUuid());
+        logger.info("managerreviews from post text4 = " + managerreviews.get(3).getReviewText());
+        logger.info("managerreviews from post uuid4 = " + managerreviews.get(3).getReviewUuid());
+        logger.info("managerreviews from post text5 = " + managerreviews.get(4).getReviewText());
+        logger.info("managerreviews from post uuid5 = " + managerreviews.get(4).getReviewUuid());
+     	
+    	
+    	return "bzthankyou";
+    	
+    }
+    
 
 
 	
