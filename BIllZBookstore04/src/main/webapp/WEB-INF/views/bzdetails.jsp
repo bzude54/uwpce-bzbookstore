@@ -31,7 +31,8 @@
                 },
                 dataType : "json",
                 cache : 'false',
-                success : function(response) {                	
+                success : function(response) { 
+                	$('div.reviewtext').html('');
                 	$.each(response, function(idx, obj) {
                 		var reviewtext = $("<div style='width:300px; font-size:20px; color:green;'></div>").text(obj.reviewText);
                 		$('div.reviewtext').append(reviewtext);
@@ -45,6 +46,31 @@
     });
     
     
+    $(document).ready(function($) {
+        $('div.postreview').click(function() {
+            $.ajax({
+                type : 'POST',
+                url : 'postreview',
+                data : {
+                    'isbn':'${ bookDetail.ISBN }',
+                    'reviewText': $("#userreview").val()
+                },
+                dataType : "json",
+                cache : 'false',
+                success : function(response) {                	
+                	$('div.reviewtext').html('');
+                	$.each(response, function(idx, obj) {
+                		var reviewtext = $("<div style='width:300px; font-size:20px; color:green;'></div>").text(obj.reviewText);
+                		$('div.reviewtext').append(reviewtext);
+                	});                   
+                },
+                error : function() {
+                    alert('shit!');
+                }
+            });  
+        });
+    });
+
 </script>
 
 </head>
@@ -81,13 +107,13 @@
 	<br /><br />
 	
 
-	<form:form method="POST" modelAttribute="bZBookReview" action="postreview/${ bookDetail.ISBN }">
+	<form name="postreview" method="POST" onsubmit="return postreview()">
 		<table>
-		<tr><td><form:label path="reviewText">Enter your book review.</form:label></td><td><form:textarea path="reviewText"/></td></tr>
+		<tr><td>Enter your book review.</td><td><input name="userreview" id="userreview" type="text" /></td></tr>
 		<tr><td></td><td></td></tr>
-		<tr><td colspan="2"><input type="submit" value="Post your review"/></td></tr>
+		<tr><td colspan="2"><div class="postreview">Click here to post your review.</div></td></tr>
 		</table>
-	</form:form>
+	</form>
 
 
 </body>
