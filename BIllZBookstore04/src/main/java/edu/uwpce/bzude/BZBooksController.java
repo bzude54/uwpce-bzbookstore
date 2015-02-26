@@ -41,11 +41,6 @@ public class BZBooksController {
 	@Autowired
 	private BZBookReviewManager bookReviewManager;
 	
-//	@Value("classpath:defaultreviews.json")
-//	Resource defaultreviews;
-	
-
-	
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -79,12 +74,11 @@ public class BZBooksController {
 	
 	
     @ResponseBody
-    @RequestMapping(value = "/reviews", method = RequestMethod.POST)
+    @RequestMapping(value = "/showreviews", method = RequestMethod.POST)
     public List<BZBookReview> getBookReviews(@RequestParam String isbn, Model model) {
         logger.info("ISBN from ajax = " + isbn);
-        List<BZBookReview> reviews = new ArrayList<BZBookReview>();
-//        reviews = bookReviewManager.getBookReviews(isbn);
-//        if (reviews == null){
+/*        List<BZBookReview> reviews = bookReviewManager.getBookReviews(isbn);
+        if (reviews == null){
     	BZBookReview newreview1 = new BZBookReview(isbn, "My first review", new Date());
     	reviews.add(newreview1);
     	BZBookReview newreview2 = new BZBookReview(isbn, "My second review", new Date());
@@ -94,9 +88,9 @@ public class BZBooksController {
     	BZBookReview newreview4 = new BZBookReview(isbn, "My fourth review", new Date());
     	reviews.add(newreview4);
     	bookReviewManager.setBookReviews(reviews);
-//        }
-//        BZBookReview review = reviews.get(0);
-    	List<BZBookReview> managerreviews = bookReviewManager.getBookReviews(isbn);
+        }
+        BZBookReview review = reviews.get(0);
+*/   	List<BZBookReview> managerreviews = bookReviewManager.getBookReviews(isbn);
         logger.info("managerreviews text1 = " + managerreviews.get(0).getReviewText());
         logger.info("managerreviews uuid1 = " + managerreviews.get(0).getReviewUuid());
         logger.info("managerreviews text2 = " + managerreviews.get(1).getReviewText());
@@ -105,8 +99,7 @@ public class BZBooksController {
         logger.info("managerreviews uuid3 = " + managerreviews.get(2).getReviewUuid());
         logger.info("managerreviews text4 = " + managerreviews.get(3).getReviewText());
         logger.info("managerreviews uuid4 = " + managerreviews.get(3).getReviewUuid());
- //       model.addAttribute("bZBookReview", new BZBookReview());
-        return reviews;
+       return managerreviews;
     }
     
     

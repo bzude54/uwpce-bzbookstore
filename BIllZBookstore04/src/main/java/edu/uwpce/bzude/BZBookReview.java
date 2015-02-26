@@ -1,6 +1,5 @@
 package edu.uwpce.bzude;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -55,8 +54,14 @@ public class BZBookReview implements BZReview {
 		this.timeStamp = timeStamp;
 	}
 	
+	@Override
 	public String getReviewUuid() {
 		return this.uuid;
+	}
+
+	@Override
+	public void setReviewUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 }

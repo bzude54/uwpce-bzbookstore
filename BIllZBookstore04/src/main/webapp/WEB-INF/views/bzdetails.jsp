@@ -25,7 +25,7 @@
         $('div.readreviews').click(function() {
             $.ajax({
                 type : 'POST',
-                url : 'reviews',
+                url : 'showreviews',
                 data : {
                     'isbn':'${ bookDetail.ISBN }'
                 },
@@ -33,7 +33,7 @@
                 cache : 'false',
                 success : function(response) {                	
                 	$.each(response, function(idx, obj) {
-                		var reviewtext = $("<p></p>").text(obj.reviewText);
+                		var reviewtext = $("<div style='width:300px; font-size:20px; color:green;'></div>").text(obj.reviewText);
                 		$('div.reviewtext').append(reviewtext);
                 	});                   
                 },
@@ -43,6 +43,8 @@
             });  
         });
     });
+    
+    
 </script>
 
 </head>

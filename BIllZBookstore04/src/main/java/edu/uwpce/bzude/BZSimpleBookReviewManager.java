@@ -11,9 +11,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,28 +25,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BZSimpleBookReviewManager implements BZBookReviewManager {
 
+
+	private static final Logger logger = LoggerFactory.getLogger(BZSimpleBookReviewManager.class);
+
 	private Map<String, List<BZBookReview>> allbooksreviews;
 
+	
+	@Value("classpath:/defaultreviews.json")
+	private Resource defaultReviewsResource;
+	
+	
 	public BZSimpleBookReviewManager() {
 		this.allbooksreviews = new ConcurrentHashMap<String, List<BZBookReview>>();
 	}
 
 	@PostConstruct
 	public void init() {
-		ClassPathResource x = new ClassPathResource("defaultreviews.json");
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			this.allbooksreviews = mapper.readValue(x.getInputStream(),
-					new TypeReference<HashMap<String, List<BZBookReview>>>() {
-					});
+			this.allbooksreviews = mapper.readValue(defaultReviewsResource.getInputStream(),
+					new TypeReference<HashMap<String, List<BZBookReview>>>() {});
+			logger.info("size of allbooksreviews in bookreviewmanager after inputstream from json file: " + this.allbooksreviews.size());
 		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
+			logger.error("Got JSONParseException." + e);
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
+			logger.error("Got JSONMappingException." + e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			logger.error("Got IOException." + e);
 			e.printStackTrace();
 		}
 	}

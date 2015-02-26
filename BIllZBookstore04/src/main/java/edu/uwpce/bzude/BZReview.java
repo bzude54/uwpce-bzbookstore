@@ -16,6 +16,10 @@ public interface BZReview extends Serializable{
 	Date getTimeStamp();
 
 	void setTimeStamp(Date timeStamp);
+	
+	String getReviewUuid();
+	
+	void setReviewUuid(String uuid);
 
 	
 }
