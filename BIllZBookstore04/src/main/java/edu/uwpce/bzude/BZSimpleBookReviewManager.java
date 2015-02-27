@@ -36,6 +36,7 @@ public class BZSimpleBookReviewManager implements BZBookReviewManager {
 	
 	public BZSimpleBookReviewManager() {
 		this.allbooksreviews = new ConcurrentHashMap<String, List<BZBookReview>>();
+		logger.info("created new bookreviewmanager, map size is: " + this.allbooksreviews.size());
 	}
 
 	@PostConstruct
@@ -55,6 +56,11 @@ public class BZSimpleBookReviewManager implements BZBookReviewManager {
 			logger.error("Got IOException." + e);
 			e.printStackTrace();
 		}
+		
+		ReviewCompare reviewCompare  = new ReviewCompare();
+		for (List<BZBookReview> reviews : allbooksreviews.values()) {
+			Collections.sort(reviews, reviewCompare);
+		}
 	}
 
 	@Override
@@ -70,7 +76,6 @@ public class BZSimpleBookReviewManager implements BZBookReviewManager {
 	public void setBookReviews(List<BZBookReview> bookReviews) {
 		String key = bookReviews.get(0).getReviewIsbn();
 		this.allbooksreviews.put(key, bookReviews);
-
 	}
 
 	@Override
@@ -94,7 +99,6 @@ public class BZSimpleBookReviewManager implements BZBookReviewManager {
 
 		} else {
 			ReviewCompare reviewCompare  = new ReviewCompare();
-//			Collections.sort(reviewlist, reviewCompare);
 //			int index = Collections.binarySearch(reviewlist, review, reviewCompare);
 //			reviewlist.add(index, review);
 			reviewlist.add(review);
@@ -113,9 +117,9 @@ public class BZSimpleBookReviewManager implements BZBookReviewManager {
 	class ReviewCompare implements Comparator<BZBookReview> {
 		public int compare(BZBookReview reviewone, BZBookReview reviewtwo) {
 			int result = 0;
-			Date thistimestamp = reviewone.getTimeStamp();
-			Date thattimestamp = reviewtwo.getTimeStamp();
-			result = thistimestamp.compareTo(thattimestamp);
+			long thistimestamp = reviewone.getTimeStamp();
+			long thattimestamp = reviewtwo.getTimeStamp();
+			result = (thistimestamp == thattimestamp ? 0 : (thistimestamp > thattimestamp ? -1 : 1));
 			return result;
 		}
 	}

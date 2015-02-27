@@ -105,7 +105,7 @@ public class BZBooksController {
     @ResponseBody
     @RequestMapping(value = "/postreview", method = RequestMethod.POST)
     public List<BZBookReview> postReview(HttpSession session, @RequestParam String isbn, @RequestParam String reviewText) {
-    	BZBookReview newreview = new BZBookReview(isbn, reviewText, new Date());
+    	BZBookReview newreview = new BZBookReview(isbn, reviewText, new Date().getTime());
 //    	newreview.setReviewIsbn(bookIsbn);
 //    	newreview.setReviewText(review.getReviewText());
 //    	newreview.setTimeStamp(new Date());
@@ -116,7 +116,7 @@ public class BZBooksController {
         logger.info("managerreviews from post text2 = " + managerreviews.get(1).getReviewText());
         logger.info("managerreviews from post uuid2 = " + managerreviews.get(1).getReviewUuid());
         logger.info("managerreviews from post text3 = " + managerreviews.get(2).getReviewText());
-        logger.info("managerreviews from post  uuid3 = " + managerreviews.get(2).getReviewUuid());
+        logger.info("managerreviews from post uuid3 = " + managerreviews.get(2).getReviewUuid());
         logger.info("managerreviews from post text4 = " + managerreviews.get(3).getReviewText());
         logger.info("managerreviews from post uuid4 = " + managerreviews.get(3).getReviewUuid());
         logger.info("managerreviews from post text5 = " + managerreviews.get(4).getReviewText());

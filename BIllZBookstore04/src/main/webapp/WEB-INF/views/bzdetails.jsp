@@ -32,10 +32,10 @@
                 dataType : "json",
                 cache : 'false',
                 success : function(response) { 
-                	$('div.reviewtext').html('');
+                	$('div.reviews').html('');
                 	$.each(response, function(idx, obj) {
-                		var reviewtext = $("<div style='width:300px; font-size:20px; color:green;'></div>").text(obj.reviewText);
-                		$('div.reviewtext').append(reviewtext);
+                		var reviewtext = $("<div style='width:500px; font-size:20px; color:green; float:left;'></div>").text(obj.reviewText);
+                		$('div.reviews').append(reviewtext);
                 	});                   
                 },
                 error : function() {
@@ -58,10 +58,10 @@
                 dataType : "json",
                 cache : 'false',
                 success : function(response) {                	
-                	$('div.reviewtext').html('');
+                	$('div.reviews').html('');
                 	$.each(response, function(idx, obj) {
                 		var reviewtext = $("<div style='width:300px; font-size:20px; color:green;'></div>").text(obj.reviewText);
-                		$('div.reviewtext').append(reviewtext);
+                		$('div.reviews').append(reviewtext);
                 	});                   
                 },
                 error : function() {
@@ -102,9 +102,9 @@
 	<p><a href="<c:url value="/bzbooks"/>">return to book list</a></p>
 	
 	<div class="readreviews">Click here to read reviews.</div>
-	<div class="reviewtext"></div>
+	<div class="reviews"></div>
 	
-	<br /><br />
+	<br style="clear:both;" /><br />
 	
 
 	<form name="postreview" method="POST" onsubmit="return postreview()">

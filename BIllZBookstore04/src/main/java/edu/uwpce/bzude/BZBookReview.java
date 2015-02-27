@@ -13,11 +13,11 @@ public class BZBookReview implements BZReview {
 	private String uuid;
 	private String isbn;
 	private String reviewText;
-	private Date timeStamp;
+	private long timeStamp;
 	
 	public BZBookReview() {	}
 	
-	public BZBookReview(String isbn, String reviewtext, Date timestamp) {
+	public BZBookReview(String isbn, String reviewtext, long timestamp) {
 		this.isbn = isbn;
 		this.reviewText = reviewtext;
 		this.timeStamp = timestamp;
@@ -45,12 +45,12 @@ public class BZBookReview implements BZReview {
 	}
 
 	@Override
-	public Date getTimeStamp() {
+	public long getTimeStamp() {
 		return timeStamp;
 	}
 
 	@Override
-	public void setTimeStamp(Date timeStamp) {
+	public void setTimeStamp(long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 	
