@@ -7,7 +7,7 @@
 <style type="text/css">
 
 .readreviews {
-	font-size:16px;
+	font-size:14px;
 	color: green;
 	margin:5px 0;
 }
@@ -16,6 +16,8 @@
 	border:1px dashed green;
 	margin:5px 0;
 	padding:5px;
+	font-size:14px;
+	color:blue;
 }
 
 </style>
@@ -34,12 +36,14 @@
                 success : function(response) { 
                 	$('div.reviews').html('');
                 	$.each(response, function(idx, obj) {
-                		var reviewtext = $("<div style='width:500px; font-size:20px; color:green; float:left;'></div>").text(obj.reviewText);
-                		$('div.reviews').append(reviewtext);
+                		var reviewtext = $("<div style='width:600px; float:left;'></div>").text(obj.reviewText);
+                		var date = new Date(obj.timeStamp);
+                		var reviewtimestamp = $("<div style='width:300px; color:red; float:left; text-align:right;'></div>").text(date.toLocaleString());
+                		$('div.reviews').append(reviewtext, reviewtimestamp);
                 	});                   
                 },
                 error : function() {
-                    alert('Whoops');
+                    alert('No reviews found for this book.');
                 }
             });  
         });
@@ -60,12 +64,14 @@
                 success : function(response) {                	
                 	$('div.reviews').html('');
                 	$.each(response, function(idx, obj) {
-                		var reviewtext = $("<div style='width:300px; font-size:20px; color:green;'></div>").text(obj.reviewText);
-                		$('div.reviews').append(reviewtext);
+                		var reviewtext = $("<div style='width:600px; float:left;'></div>").text(obj.reviewText);
+                		var date = new Date(obj.timeStamp);
+                		var reviewtimestamp = $("<div style='width:300px; color:red; float:left; text-align:right;'></div>").text(date.toLocaleString());
+                		$('div.reviews').append(reviewtext, reviewtimestamp);
                 	});                   
                 },
                 error : function() {
-                    alert('shit!');
+                    alert('Your review was not accepted.');
                 }
             });  
         });
@@ -107,9 +113,9 @@
 	<br style="clear:both;" /><br />
 	
 
-	<form name="postreview" method="POST" onsubmit="return postreview()">
+	<form name="postreview" method="POST" onsubmit="return postreview()" action="">
 		<table>
-		<tr><td>Enter your book review.</td><td><input name="userreview" id="userreview" type="text" /></td></tr>
+		<tr><td>Enter your book review.</td><td><textarea name="userreview" id="userreview" rows="5" cols="60"></textarea></td></tr>
 		<tr><td></td><td></td></tr>
 		<tr><td colspan="2"><div class="postreview">Click here to post your review.</div></td></tr>
 		</table>
