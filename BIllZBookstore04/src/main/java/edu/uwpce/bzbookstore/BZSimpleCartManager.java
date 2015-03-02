@@ -23,17 +23,17 @@ public class BZSimpleCartManager implements BZCartManager {
 	}
 
 	@Override
-	public Map<Integer, BZCart> getCarts() {
+	public Map<Integer, BZCart> getAllCarts() {
 		return this.carts;
 	}
 
 	@Override
-	public void setCarts(Map<Integer, BZCart> carts) {
+	public void setAllCarts(Map<Integer, BZCart> carts) {
 		this.carts = carts;
 	}
 
 	@Override
-	public void setSingleCart(BZCart cart) {
+	public void setCart(BZCart cart) {
 		if (cart != null) {
 			carts.put(cart.getCartId(), cart);
 			logger.info("Successfully added new cart to Cart Manager");
@@ -43,7 +43,7 @@ public class BZSimpleCartManager implements BZCartManager {
 	}
 
 	@Override
-	public BZCart getSingleCart(int userId) {
+	public BZCart getCart(int userId) {
 		BZCart cart = carts.get(userId);
 		if (cart == null) {
 			cart = new BZSimpleCart(userId);
@@ -51,6 +51,28 @@ public class BZSimpleCartManager implements BZCartManager {
 		}
 		return cart;
 	}
+	
+
+	@Override
+	public BZCart updateCart(BZCart cart) {
+		BZCart checkcart = carts.get(cart.getCartId());
+		if (checkcart != null) {
+			carts.remove(cart.getCartId());
+		}
+		carts.put(cart.getCartId(), cart);
+		return carts.get(cart.getCartId());
+	}
+
+	@Override
+	public boolean deleteCart(int cartid) {
+		boolean deleteSuccess = false;
+		BZCart checkcart = carts.get(cartid);
+		if (checkcart != null) {
+			deleteSuccess = true;
+		}
+		return deleteSuccess;
+	}
+
 
 	@Override
 	public double getCartTax(int cartId) {
@@ -79,6 +101,7 @@ public class BZSimpleCartManager implements BZCartManager {
 			}
 		return shippingCost;
 	}
+
 
 
 }

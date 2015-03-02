@@ -26,7 +26,7 @@ public class BZSimpleUserManager implements BZUserManager {
 	}
 
 	@Override
-	public BZUserInfo getSingleUser(int userid) {
+	public BZUserInfo getSingleUserById(int userid) {
 		BZUserInfo user = null;
 		if (users != null && users.containsKey(userid)) {
 			user = users.get(userid);
@@ -42,5 +42,36 @@ public class BZSimpleUserManager implements BZUserManager {
 		users.put(user.getUserId(), user);
 		
 	}
+
+	@Override
+	public BZUserInfo getSingleUserByUsername(String username) {
+		BZUserInfo userresult = null;
+		for (BZUserInfo user : users.values()) {
+			if (user.getUserName().equals(username)){
+				userresult = user;
+			}
+		}
+		return userresult;
+	}
+
+	@Override
+	public void updateUser(BZUserInfo userinfo) {
+		BZUserInfo checkuser = this.getSingleUserById(userinfo.getUserId());
+		if (checkuser != null){
+				users.remove(checkuser.getUserId());
+		}
+		users.put(userinfo.getUserId(), userinfo);
+	}
+
+	@Override
+	public boolean deleteUser(int userId) {
+		boolean deleteSuccess = false;
+		if (this.getSingleUserById(userId) != null) {
+			users.remove(userId);
+			deleteSuccess = true;
+		}
+		return deleteSuccess;
+	}
+	
 
 }

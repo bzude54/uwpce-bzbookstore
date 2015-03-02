@@ -50,7 +50,7 @@ public class BZCartController {
 //		logger.info("addItemTOCart bookid: " + bookid);
 		int userid = (Integer) session.getAttribute("userid");
 //		logger.info("userid is: " + userid);
-		bzcart = cartManager.getSingleCart(userid);
+		bzcart = cartManager.getCart(userid);
 		BZSimpleCartItem cartItem = bzcart.getSingleCartItem(bookid);
 		if (cartItem != null) {
 			cartItem.incrementCartItemQty();
@@ -83,7 +83,7 @@ public class BZCartController {
 	public ModelAndView showCart(HttpSession session) {
 
 		int userid = (Integer) session.getAttribute("userid");
-		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getSingleCart(userid);
+		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getCart(userid);
 /*		if (bzcart != null) {
 			logger.info("cartID in showcart is: " + bzcart.getCartId());
 			for (BZCartItem item : bzcart.getCartItems()) {
@@ -117,7 +117,7 @@ public class BZCartController {
             }
 		}
 
-		cartManager.setSingleCart(checkcart);
+		cartManager.setCart(checkcart);
 	    session.setAttribute("bzcart", checkcart);
 		session.setAttribute("numCartItems", checkcart.getCartQty());
 	        

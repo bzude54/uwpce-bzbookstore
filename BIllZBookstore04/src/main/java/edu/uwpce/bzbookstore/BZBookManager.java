@@ -11,4 +11,8 @@ public interface BZBookManager {
 	public BZBook getSingleBook(String bookId);
 	
 	public void setSingleBook(BZBook book);
+
+	public void updateBook(BZBook book);
+
+	public boolean deleteBook(String bookId);
 }

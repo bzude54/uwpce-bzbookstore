@@ -72,4 +72,25 @@ public class BZSimpleBookManager implements BZBookManager {
 	public void setSingleBook(BZBook book) {
 		books.put(book.getISBN(), book);
 	}
+
+
+	@Override
+	public void updateBook(BZBook book) {
+		BZBook checkbook = books.get(book.getISBN());
+		if (checkbook != null){
+			books.remove(book.getISBN());
+		}
+		books.put(book.getISBN(), book);
+	}
+
+
+	@Override
+	public boolean deleteBook(String bookId) {
+		boolean deleteSuccess = false;
+		if (books.get(bookId) != null){
+			books.remove(bookId);
+			deleteSuccess = true; 
+		} 
+		return deleteSuccess;
+	}
 }

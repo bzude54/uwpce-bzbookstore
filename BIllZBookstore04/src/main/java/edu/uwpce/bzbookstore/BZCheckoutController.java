@@ -55,7 +55,7 @@ public class BZCheckoutController {
 			int userid = (Integer) session.getAttribute("userid");
 			BZCart bzcart = (BZSimpleCart) session.getAttribute("bzcart");
 //			logger.info("in showcheckout, bzcart id is: " + bzcart.getCartId() + " and qty is: " + bzcart.getCartQty());
-			BZUserInfo bzuserinfo = userManager.getSingleUser(userid);
+			BZUserInfo bzuserinfo = userManager.getSingleUserById(userid);
 //			logger.info("in showcheckout, bzuserinfo has username: " + bzuserinfo.getUserName());
 			BZCheckoutInfo bzcheckoutinfo = new BZCheckoutInfo(bzcart, bzuserinfo);
 //			logger.info("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());

@@ -4,12 +4,18 @@ import java.util.Map;
 
 public interface BZUserManager {
 	
-	public Map<Integer, BZUserInfo> getUsers();	
+	Map<Integer, BZUserInfo> getUsers();	
 	
-	public void setUsers(Map<Integer, BZUserInfo> users);
+	void setUsers(Map<Integer, BZUserInfo> users);
 
-	public void setSingleUser(BZUserInfo newuser);
+	void setSingleUser(BZUserInfo newuser);
 
-	public BZUserInfo getSingleUser(int userid);
+	BZUserInfo getSingleUserByUsername(String username);
+
+	BZUserInfo getSingleUserById(int userid);
+
+	void updateUser(BZUserInfo userinfo);
+	
+	boolean deleteUser(int userId);
 
 }

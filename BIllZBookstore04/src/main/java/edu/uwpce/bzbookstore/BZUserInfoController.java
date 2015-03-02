@@ -94,7 +94,7 @@ public class BZUserInfoController {
     public ModelAndView displayAccountInfoForm(HttpSession session, Model model, @PathVariable("userid") int userid) {
     	
     	BZUserInfo accountUserInfo = new BZUserInfo();
-    	accountUserInfo = userManager.getSingleUser(userid);
+    	accountUserInfo = userManager.getSingleUserById(userid);
 //    	 logger.info("in bzacctinfo GET, userid is: " + userid);
 //     	 logger.info("in bzacctinfo GET, username is: " + accountUserInfo.getUserName());
      	 if (accountUserInfo != null) {
@@ -118,7 +118,7 @@ public class BZUserInfoController {
 		boolean update = false;
 		Map<Integer, BZUserInfo> users = userManager.getUsers();
 		
-		BZUserInfo user = userManager.getSingleUser(userid);
+		BZUserInfo user = userManager.getSingleUserById(userid);
 		
 		if (user != null) {
 //			 logger.info("in bzacctinfo, username back from usermananger is: " + user.getUserName());

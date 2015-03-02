@@ -4,13 +4,17 @@ import java.util.Map;
 
 public interface BZCartManager {
 	
-	Map<Integer, BZCart> getCarts();
+	Map<Integer, BZCart> getAllCarts();
 	
-	void setCarts(Map<Integer, BZCart> cart);
+	void setAllCarts(Map<Integer, BZCart> cart);
 	
-	void setSingleCart(BZCart cart);
+	void setCart(BZCart cart);
 	
-	BZCart getSingleCart(int cartId);
+	BZCart getCart(int cartId);
+	
+	BZCart updateCart(BZCart cart);
+	
+	boolean deleteCart(int cartid);
 			
 	double getCartTax(int cartId);
 		
