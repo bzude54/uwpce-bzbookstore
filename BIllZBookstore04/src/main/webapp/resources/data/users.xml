@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="userManager" class="edu.uwpce.bzude.BZSimpleUserManager">
+	<bean id="userManager" class="edu.uwpce.bzbookstore.BZSimpleUserManager">
 		<property name="users">
 			<map>
 				<entry key="100" value-ref="user1" />			
@@ -12,7 +12,7 @@
 	
 	</bean>
 
-	<bean id="user1" class="edu.uwpce.bzude.BZUserInfo">
+	<bean id="user1" class="edu.uwpce.bzbookstore.BZUserInfo">
 		<property name="userName" value="bob" />
 		<property name="password" value="pwd" />
 		<property name="userId" value="100" />
