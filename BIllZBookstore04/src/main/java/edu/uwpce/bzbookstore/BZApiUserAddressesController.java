@@ -46,11 +46,12 @@ public class BZApiUserAddressesController {
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.POST)
-    public Object createUser(@RequestBody BZAddress newaddress, @PathVariable("addressid") String addressid, HttpServletResponse response) {
+    public Object createUser(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
 		if (addressesManager.getAddress(addressid) != null) {
             return new BZApiMessage(MsgType.ERROR, "Address of type: " + addressid + " already exists.");
 		} else {
-			addressesManager.addAddress(newaddress);	
+			addressesManager.addAddress(newaddress);
+			usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
 	        response.setStatus(HttpServletResponse.SC_CREATED);
 			return addressesManager.getAddress(addressid);
 		}
@@ -58,16 +59,18 @@ public class BZApiUserAddressesController {
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.PUT)
-    public BZAddress updateAddress(@RequestBody BZAddress newaddress, @PathVariable("addressid") String addressid){
+    public BZAddress updateAddress(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid){
     	addressesManager.updateAddress(newaddress);
-    	return addressesManager.getAddress(addressid);
+		usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
+		return addressesManager.getAddress(addressid);
     
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.DELETE)
-    public Object deleteUser(@PathVariable("addressid") String addressid, HttpServletResponse response) {
+    public Object deleteUser(@PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
     	if (addressesManager.deleteAddress(addressid)){
+    		usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
     		return new BZApiMessage(MsgType.INFO, "Address of type: " + addressid + " has been deleted.");
     	} else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

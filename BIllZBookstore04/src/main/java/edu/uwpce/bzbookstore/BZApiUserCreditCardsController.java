@@ -43,11 +43,12 @@ public class BZApiUserCreditCardsController {
     
     
     @RequestMapping(value="/cards/{cardnum}", method=RequestMethod.POST)
-    public Object createCard(@RequestBody BZCreditCard newcard, @PathVariable("cardnum") String cardnum, HttpServletResponse response) {
+    public Object createCard(@RequestBody BZCreditCard newcard, @PathVariable("userid") int userid, @PathVariable("cardnum") String cardnum, HttpServletResponse response) {
 		if (cardsManager.getCard(cardnum) != null) {
             return new BZApiMessage(MsgType.ERROR, "Credit card with username= " + cardnum + " already exists.");
 		} else {
 			cardsManager.addCard(newcard);	
+			usersManager.getSingleUserById(userid).setCards(cardsManager.getCards());
 	        response.setStatus(HttpServletResponse.SC_CREATED);
 			return cardsManager.getCard(cardnum);
 		}    	    	
@@ -55,15 +56,17 @@ public class BZApiUserCreditCardsController {
     
     
     @RequestMapping(value="/cards/{cardnum}", method=RequestMethod.PUT)
-    public BZCreditCard updateCard(@RequestBody BZCreditCard card, @PathVariable("cardnum") String cardnum){
+    public BZCreditCard updateCard(@RequestBody BZCreditCard card, @PathVariable("userid") int userid, @PathVariable("cardnum") String cardnum){
     	cardsManager.updateCard(card);
+		usersManager.getSingleUserById(userid).setCards(cardsManager.getCards());
     	return cardsManager.getCard(cardnum);
     }
     
     
     @RequestMapping(value="/cards/{cardnum}", method=RequestMethod.DELETE)
-    public Object deleteCard(@PathVariable("cardnum") String cardnum, HttpServletResponse response) {
+    public Object deleteCard(@PathVariable("userid") int userid, @PathVariable("cardnum") String cardnum, HttpServletResponse response) {
     	if (cardsManager.deleteCard(cardnum)){
+    		usersManager.getSingleUserById(userid).setCards(cardsManager.getCards());
     		return new BZApiMessage(MsgType.INFO, "Card number: " + cardnum + " has been deleted.");
     	} else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
