@@ -5,13 +5,13 @@ import java.util.Map;
 
 public interface BZCart {
 
-	List<BZSimpleCartItem> getCartItems();
+	List<BZCartItemImpl> getCartItems();
 	
-	void setCartItems(List<BZSimpleCartItem> cart);
+	void setCartItems(List<BZCartItemImpl> cart);
 	
-	BZSimpleCartItem getSingleCartItem(String itemId);
+	BZCartItemImpl getSingleCartItem(String itemId);
 	
-	void setSingleCartItem(BZSimpleCartItem cartItem);
+	void setSingleCartItem(BZCartItemImpl cartItem);
 		
 	void setCartItemQty(String itemId, int qty);
 	

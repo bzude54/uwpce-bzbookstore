@@ -36,10 +36,10 @@ public class BZBooksController {
 	
 	
 	@Autowired
-	private BZBookManager bookManager;
+	private BZBooksManager bookManager;
 	
 	@Autowired
-	private BZBookReviewManager bookReviewManager;
+	private BZBookReviewsManager bookReviewManager;
 	
 	
 	/**

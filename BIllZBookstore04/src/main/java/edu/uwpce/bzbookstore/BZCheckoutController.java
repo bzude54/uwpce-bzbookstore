@@ -21,10 +21,10 @@ public class BZCheckoutController {
 		
 		
 		@Autowired
-		private BZUserManager userManager;
+		private BZUsersManager userManager;
 		
 		@Autowired
-		private BZCartManager cartManager;
+		private BZCartsManager cartManager;
 		
 		@Autowired
 		private BZCheckoutInfoValidator checkoutValidator;
@@ -53,7 +53,7 @@ public class BZCheckoutController {
 			String username = (String) session.getAttribute("username");
 //			logger.info("in showcheckout, username is: " + username);
 			int userid = (Integer) session.getAttribute("userid");
-			BZCart bzcart = (BZSimpleCart) session.getAttribute("bzcart");
+			BZCart bzcart = (BZCartImpl) session.getAttribute("bzcart");
 //			logger.info("in showcheckout, bzcart id is: " + bzcart.getCartId() + " and qty is: " + bzcart.getCartQty());
 			BZUserInfo bzuserinfo = userManager.getSingleUserById(userid);
 //			logger.info("in showcheckout, bzuserinfo has username: " + bzuserinfo.getUserName());

@@ -25,7 +25,7 @@ public class BZUserInfoController {
 
 	
 	@Autowired
-	private BZUserManager userManager;
+	private BZUsersManager userManager;
 	
 /*	@Resource(name="userManager")
 	public void setUserManager(BZUserManager usermanager) {

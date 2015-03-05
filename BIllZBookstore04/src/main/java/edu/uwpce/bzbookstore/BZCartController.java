@@ -25,12 +25,12 @@ public class BZCartController {
 			.getLogger(BZCartController.class);
 
 	@Autowired
-	private BZCartManager cartManager;
+	private BZCartsManager cartManager;
 	
 	@Autowired
-	private BZBookManager bookManager;
+	private BZBooksManager bookManager;
 	
-	private BZCart bzcart = new BZSimpleCart();
+	private BZCart bzcart = new BZCartImpl();
 
 /*	@Resource(name = "bookManager")
 	public void setBookManager(BZBookManager bookManager) {
@@ -51,12 +51,12 @@ public class BZCartController {
 		int userid = (Integer) session.getAttribute("userid");
 //		logger.info("userid is: " + userid);
 		bzcart = cartManager.getCart(userid);
-		BZSimpleCartItem cartItem = bzcart.getSingleCartItem(bookid);
+		BZCartItemImpl cartItem = bzcart.getSingleCartItem(bookid);
 		if (cartItem != null) {
 			cartItem.incrementCartItemQty();
 		} else {
 //			logger.info("cartItem IS null!");
-			cartItem = new BZSimpleCartItem(bookManager.getSingleBook(bookid));
+			cartItem = new BZCartItemImpl(bookManager.getSingleBook(bookid));
 //			logger.info("cartItem has an id: " + cartItem.getCartItemId());
 			bzcart.setSingleCartItem(cartItem);
 		}
@@ -83,7 +83,7 @@ public class BZCartController {
 	public ModelAndView showCart(HttpSession session) {
 
 		int userid = (Integer) session.getAttribute("userid");
-		BZSimpleCart bzcart = (BZSimpleCart) cartManager.getCart(userid);
+		BZCartImpl bzcart = (BZCartImpl) cartManager.getCart(userid);
 /*		if (bzcart != null) {
 			logger.info("cartID in showcart is: " + bzcart.getCartId());
 			for (BZCartItem item : bzcart.getCartItems()) {
@@ -100,12 +100,12 @@ public class BZCartController {
 
 	@RequestMapping(value = "/bzcart", method = RequestMethod.POST)
 	public String updateCart(HttpSession session,
-			@ModelAttribute BZSimpleCart bzcart) {
+			@ModelAttribute BZCartImpl bzcart) {
 
 //		logger.info("returning from cart");
-		BZSimpleCart checkcart = (BZSimpleCart) session.getAttribute("bzcart");
+		BZCartImpl checkcart = (BZCartImpl) session.getAttribute("bzcart");
 //		logger.info("checkcart: " + checkcart.getCartId());
-		for (BZSimpleCartItem item : bzcart.getCartItems()) {
+		for (BZCartItemImpl item : bzcart.getCartItems()) {
 /*			logger.info("book ISBN in cart: "
 					+ item.getCartItemId() + " Total price: " + item.getCartItemTotalPrice() + " qty: "
 					+ item.getCartItemQty());

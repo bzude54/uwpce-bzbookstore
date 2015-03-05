@@ -6,6 +6,10 @@ public interface BZAddress {
 	
 	void setStreetAddress(String streetAddress);
 
+	String getCity();
+	
+	void setCity(String city);
+
 	String getState();
 	
 	void setState(String state);

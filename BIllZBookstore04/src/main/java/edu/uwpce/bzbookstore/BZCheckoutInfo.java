@@ -6,7 +6,7 @@ public class BZCheckoutInfo {
 	private BZUserInfo userInfo;
 	
 	public BZCheckoutInfo(){
-		this.cart = new BZSimpleCart();
+		this.cart = new BZCartImpl();
 		this.userInfo = new BZUserInfo();
 	}
 	
@@ -20,7 +20,7 @@ public class BZCheckoutInfo {
 		return cart;
 	}
 
-	public void setCart(BZSimpleCart cart) {
+	public void setCart(BZCartImpl cart) {
 		this.cart = cart;
 	}
 

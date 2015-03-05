@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bookManager" class="edu.uwpce.bzbookstore.BZSimpleBookManager">
+	<bean id="bookManager" class="edu.uwpce.bzbookstore.BZBooksManagerImpl">
 		<property name="books">
 			<map>
 				<entry key="978-0441569595" value-ref="book1" />
@@ -14,7 +14,7 @@
 		</property>
 	</bean>
 	
-	<bean id="bookReviewManager" class="edu.uwpce.bzbookstore.BZSimpleBookReviewManager">
+	<bean id="bookReviewManager" class="edu.uwpce.bzbookstore.BZBookReviewsManagerImpl">
 	</bean>
 
 	<bean id="book1" class="edu.uwpce.bzbookstore.BZBook">
