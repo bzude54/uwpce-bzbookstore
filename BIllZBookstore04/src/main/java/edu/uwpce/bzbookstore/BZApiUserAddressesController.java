@@ -18,17 +18,23 @@ import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 
 @RestController
 @RequestMapping("/api/accounts/{userid}")
-public class BZApiAccountAddressesController {
+public class BZApiUserAddressesController {
    
     @Autowired
     private BZUsersManager usersManager;
     
     @Autowired
     private BZAddressesManager addressesManager;
+    
+    private List<BZAddress> addresses;
+    
+    public BZApiUserAddressesController(@PathVariable("userid") int userid) {
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
+	}
         
     
     @RequestMapping(value="/addresses", method=RequestMethod.GET)
-    public List<BZAddress> getAddresses(){
+    public List<BZAddress> getAddresses(@PathVariable("userid") int userid){
        	return addressesManager.getAddresses();
     }
     

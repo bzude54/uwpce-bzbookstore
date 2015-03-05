@@ -18,7 +18,7 @@ import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 
 @RestController
 @RequestMapping("/api/accounts/{userid}")
-public class BZApiAccountCreditCardsController {
+public class BZApiUserCreditCardsController {
    
     @Autowired
     private BZUsersManager usersManager;
@@ -26,7 +26,10 @@ public class BZApiAccountCreditCardsController {
     @Autowired
     private BZCreditCardsManager cardsManager;
         
-    
+    public BZApiUserCreditCardsController(@PathVariable("userid") int userid) {
+    	cardsManager.setCards(usersManager.getSingleUserById(userid).getCards());
+	}
+   
     @RequestMapping(value="/cards", method=RequestMethod.GET)
     public List<BZCreditCard> getCards(){
        	return cardsManager.getCards();
