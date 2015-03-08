@@ -3,6 +3,8 @@ package edu.uwpce.bzbookstore;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,36 +19,42 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 
 @RestController
-@RequestMapping("/api/accounts/{userid}")
+@RequestMapping("/api/users/{userid}")
 public class BZApiUserAddressesController {
    
-    @Autowired
+	@Autowired
     private BZUsersManager usersManager;
     
     @Autowired
     private BZAddressesManager addressesManager;
     
-    private List<BZAddress> addresses;
+    private Map<String, BZAddress> addresses;
+ 	
+
+ /*   public BZApiUserAddressesController() {
+    	usersManager = new BZUsersManagerImpl();
+    }
+ */    
     
-    public BZApiUserAddressesController(@PathVariable("userid") int userid) {
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
-	}
-        
     
     @RequestMapping(value="/addresses", method=RequestMethod.GET)
-    public List<BZAddress> getAddresses(@PathVariable("userid") int userid){
-       	return addressesManager.getAddresses();
+    public Map<String, BZAddress> getAddresses(@PathVariable("userid") int userid){
+    	int userID = 100;
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userID).getAddresses());
+    	return addressesManager.getAddresses();
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.GET)
-    public BZAddress getAddress(HttpServletResponse response, @PathVariable("addressid") String addressid) {
+    public BZAddress getAddress(HttpServletResponse response, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid) {
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
     	return addressesManager.getAddress(addressid);
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.POST)
-    public Object createUser(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
+    public Object createAddress(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
 		if (addressesManager.getAddress(addressid) != null) {
             return new BZApiMessage(MsgType.ERROR, "Address of type: " + addressid + " already exists.");
 		} else {
@@ -60,6 +68,7 @@ public class BZApiUserAddressesController {
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.PUT)
     public BZAddress updateAddress(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid){
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
     	addressesManager.updateAddress(newaddress);
 		usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
 		return addressesManager.getAddress(addressid);
@@ -68,7 +77,8 @@ public class BZApiUserAddressesController {
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.DELETE)
-    public Object deleteUser(@PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
+    public Object deleteAddress(@PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
     	if (addressesManager.deleteAddress(addressid)){
     		usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
     		return new BZApiMessage(MsgType.INFO, "Address of type: " + addressid + " has been deleted.");

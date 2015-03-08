@@ -1,19 +1,58 @@
 package edu.uwpce.bzbookstore;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BZUsersManagerImpl implements BZUsersManager {
 	
     private static final Logger logger = LoggerFactory.getLogger(BZUsersManagerImpl.class);
 	
 	private static int USERID = 100;
-	private Map<Integer, BZUserInfo> users = new ConcurrentHashMap<>();
+	private Map<Integer, BZUserInfo> users;
 		
+	@Value("classpath:/defaultusers.json")
+	private Resource defaultUsersResource;
 
+	public BZUsersManagerImpl() {
+		this.users = new ConcurrentHashMap<Integer, BZUserInfo>();
+		logger.info("created new usersmanager, map size is: " + this.users.size());
+	}
+	
+/*	@PostConstruct
+	public void init() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			this.users = mapper.readValue(defaultUsersResource.getInputStream(),
+					new TypeReference<HashMap<String, BZUserInfo>>() {});
+			logger.info("size of users in usersmanager after inputstream from json file: " + this.users.size());
+		} catch (JsonParseException e) {
+			logger.error("Got JSONParseException." + e);
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			logger.error("Got JSONMappingException." + e);
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("Got IOException." + e);
+			e.printStackTrace();
+		}
+	}
+*/
+	
+	
 	@Override
 	public Map<Integer, BZUserInfo> getUsers() {
 		return users;
@@ -36,10 +75,11 @@ public class BZUsersManagerImpl implements BZUsersManager {
 
 
 	@Override
-	public void setSingleUser(BZUserInfo user) {
+	public int setSingleUser(BZUserInfo user) {
 		int userId = ++USERID;
 		user.setUserId(userId);
 		users.put(user.getUserId(), user);
+		return userId;
 		
 	}
 

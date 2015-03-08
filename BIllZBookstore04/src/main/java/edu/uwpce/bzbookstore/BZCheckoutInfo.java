@@ -1,5 +1,8 @@
 package edu.uwpce.bzbookstore;
 
+import java.util.List;
+import java.util.Map;
+
 public class BZCheckoutInfo {
 	
 	private BZCart cart;
@@ -40,50 +43,21 @@ public class BZCheckoutInfo {
 		return cart.getCartTotal();
 	}
 
-	public String getUserStreetAddress() {
-		return userInfo.getShippingStreetAddress();
+	public Map<String, BZAddress> getUserAddresses() {
+		return userInfo.getAddresses();
 	}
 	
-	public void setUserStreetAddress(String streetaddr)	{
-		this.userInfo.setShippingStreetAddress(streetaddr);
+	public void setUserAddresses(Map<String, BZAddress> addresses)	{
+		this.userInfo.setAddresses(addresses);
 	}
 
-	public String getUserCity() {
-		return userInfo.getShippingCity();
-	}
-	
-	public void setUserCity(String city)	{
-		this.userInfo.setShippingCity(city);
-	}
-
-
-	public String getUserState() {
-		return userInfo.getShippingState();
+	public Map<String, BZCreditCard> getUserCreditCards() {
+		return userInfo.getCards();
 	}
 	
-	public void setUserState(String state)	{
-		this.userInfo.setShippingState(state);
+	public void setUserCreditCards(List<BZCreditCard> cards) { 
+		this.userInfo.setCards((Map<String, BZCreditCard>) cards);
 	}
-
-
-	public String getUserZip() {
-		return userInfo.getShippingZip();
-	}
-	
-	public void setUserZip(String zip)	{
-		this.userInfo.setShippingZip(zip);
-	}
-
-
-	public String getUserCreditCard() {
-		return userInfo.getCreditCard1();
-	}
-	
-	public void setUserCreditCard(String card)	{
-		this.userInfo.setCreditCard1(card);
-	}
-
-
 
 
 }

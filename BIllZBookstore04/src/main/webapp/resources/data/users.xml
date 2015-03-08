@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="userManager" class="edu.uwpce.bzbookstore.BZUsersManagerImpl">
+	<bean id="usersManager" class="edu.uwpce.bzbookstore.BZUsersManagerImpl">
 		<property name="users">
 			<map>
 				<entry key="100" value-ref="user1" />			
@@ -18,16 +18,48 @@
 		<property name="userId" value="100" />
 		<property name="firstName" value="Jim" />
 		<property name="lastName" value="Bob" />
-		<property name="mailingStreetAddress" value="123 Free" />
-		<property name="mailingCity" value="Seattle" />
-		<property name="mailingState" value="WA" />
-		<property name="mailingZip" value="98100" />
-		<property name="shippingStreetAddress" value="345 MLK Blvd" />
-		<property name="shippingCity" value="Renton" />
-		<property name="shippingState" value="WA" />
-		<property name="shippingZip" value="98000" />
-		<property name="creditCard1" value="1234567890" />
+		<property name="phoneNumber1" value="206-574-8090" />
+		<property name="phoneNumber2" value="206-555-1313" />
+		<property name="addresses">
+			<map>
+				<entry key="primary" value-ref="address1" />
+				<entry key="secondary" value-ref="address2" />
+			</map>
+		</property>
+		<property name="cards">
+			<map>
+				<entry key="primary" value-ref="card1" />
+			</map>
+		</property>
+		
 	</bean>
+	
+	
+	<bean id="address1" class="edu.uwpce.bzbookstore.BZAddress">
+		<property name="streetAddress" value="12546 Fremont Ave N"/>
+		<property name="city" value="Seattle"/>
+		<property name="state" value="WA"/>
+		<property name="zipcode" value="98133"/>
+		<property name="addressType" value="primary" />
+	</bean>
+	
+	<bean id="address2" class="edu.uwpce.bzbookstore.BZAddress">
+		<property name="streetAddress" value="13245 Aurora Ave"/>
+		<property name="city" value="Portland"/>
+		<property name="state" value="OH"/>
+		<property name="zipcode" value="45132"/>
+		<property name="addressType" value="secondary" />
+	</bean>
+	
+	<bean id="card1" class="edu.uwpce.bzbookstore.BZCreditCard">
+		<property name="cardNumber" value="1234567890987654"/>
+		<property name="cardExpirationDate" value="May 2017"/>
+		<property name="cardType" value="primary"/>
+		<property name="cardCode" value="999"/>
+		<property name="cardOwnerName" value="Bob Smith" />
+		<property name="cardVendor" value="VISA" />
+		<property name="cardOwnerId" value="100" />
+	</bean>	
 	
 	
 	<bean id="addressesManager" class="edu.uwpce.bzbookstore.BZAddressesManagerImpl"></bean>

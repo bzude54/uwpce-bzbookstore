@@ -40,7 +40,7 @@ public class BZBookReviewsManagerImpl implements BZBookReviewsManager {
 	}
 
 	@PostConstruct
-	public void init() {
+	void init() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			this.allbooksreviews = mapper.readValue(defaultReviewsResource.getInputStream(),

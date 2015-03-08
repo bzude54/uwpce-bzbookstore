@@ -1,12 +1,13 @@
 package edu.uwpce.bzbookstore;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BZAddressesManager {
 	
-	List<BZAddress> getAddresses();
+	Map<String, BZAddress> getAddresses();
 	
-	void setAddresses(List<BZAddress> addresses);
+	void setAddresses(Map<String, BZAddress> addresses);
 	
 	BZAddress getAddress(String type);
 	

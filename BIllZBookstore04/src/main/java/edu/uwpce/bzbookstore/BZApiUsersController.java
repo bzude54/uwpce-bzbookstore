@@ -19,10 +19,9 @@ import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 @RequestMapping("/api")
 public class BZApiUsersController {
    
-    @Autowired
+	@Autowired
     private BZUsersManager usersManager;
-        
-    
+          
     @RequestMapping(value="/users", method=RequestMethod.GET)
     public Map<Integer, BZUserInfo> getUsers(){
        	return usersManager.getUsers();

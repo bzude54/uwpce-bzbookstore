@@ -2,6 +2,7 @@ package edu.uwpce.bzbookstore;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,12 +31,12 @@ public class BZUserInfo implements Serializable{
 	@Size(min=8, max=8, message="Password must be 8 characters.")	
 	private String password;
 	
-    private List<BZAddress> addresses;
+    private Map<String, BZAddress> addresses;
     
 	private String phoneNumber1;
 	private String phoneNumber2;
 
-	private List<BZCreditCard> cards;
+	private Map<String, BZCreditCard> cards;
 	
 	public BZUserInfo() {}
 	
@@ -75,11 +76,11 @@ public class BZUserInfo implements Serializable{
 		this.password = password;
 	}
 	
-	public List<BZAddress> getAddresses() {
+	public Map<String, BZAddress> getAddresses() {
 		return this.addresses;
 	}
 	
-	public void setAddresses(List<BZAddress> addresses) {
+	public void setAddresses(Map<String, BZAddress> addresses) {
 		this.addresses = addresses;
 	}
 	
@@ -99,11 +100,11 @@ public class BZUserInfo implements Serializable{
 		this.phoneNumber2 = phoneNumber2;
 	}
 	
-	public List<BZCreditCard> getCards() {
+	public Map<String, BZCreditCard> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<BZCreditCard> cards) {
+	public void setCards(Map<String, BZCreditCard> cards) {
 		this.cards = cards;
 	}
 

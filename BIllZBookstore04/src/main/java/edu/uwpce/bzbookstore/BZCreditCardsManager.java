@@ -1,12 +1,13 @@
 package edu.uwpce.bzbookstore;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BZCreditCardsManager {
 	
-	List<BZCreditCard> getCards();
+	Map<String, BZCreditCard> getCards();
 	
-	void setCards(List<BZCreditCard> cards);
+	void setCards(Map<String, BZCreditCard> cards);
 	
 	BZCreditCard getCard(String cardnum);
 	

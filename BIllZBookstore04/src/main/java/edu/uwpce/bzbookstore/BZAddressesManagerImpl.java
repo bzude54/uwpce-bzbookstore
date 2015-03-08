@@ -1,55 +1,54 @@
 package edu.uwpce.bzbookstore;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BZAddressesManagerImpl implements BZAddressesManager {
 	
-	List<BZAddress> addresses;
+	Map<String, BZAddress> addresses;
+	
+	public BZAddressesManagerImpl() {
+		this.addresses = new ConcurrentHashMap<String, BZAddress>();
+	}
 
 	@Override
-	public List<BZAddress> getAddresses() {
+	public Map<String, BZAddress> getAddresses() {
 		return this.addresses;
 	}
 
 	@Override
-	public void setAddresses(List<BZAddress> addresses) {
+	public void setAddresses(Map<String, BZAddress> addresses) {
 		this.addresses = addresses;
 	}
 
 	@Override
 	public BZAddress getAddress(String type) {
-		BZAddress address = null;
-		for (BZAddress checkaddr : addresses) {
-			if (checkaddr.getAddressType().equals(type)) {
-				address = checkaddr;
-			}
-		}
+		BZAddress address = addresses.get(type);		
 		return address;
 	}
 
 	@Override
 	public void addAddress(BZAddress address) {
-		addresses.add(address);
+		addresses.put(address.getAddressType(), address);
 	}
 
 	@Override
 	public void updateAddress(BZAddress address) {
-		for (BZAddress checkaddr : addresses) {
-			if (checkaddr.getAddressType().equals(address.getAddressType())) {
-				addresses.remove(checkaddr);
-			}
+		BZAddress checkaddr = addresses.get(address.getAddressType());
+		if (checkaddr != null) {
+			addresses.remove(address.getAddressType());
 		}
-		addresses.add(address);
+		addresses.put(address.getAddressType(), address);
 	}
 
 	@Override
 	public boolean deleteAddress(String type) {
 		boolean deleteSuccess = false;
-		for (BZAddress checkaddr : addresses) {
-			if (checkaddr.getAddressType().equals(type)) {
-				addresses.remove(checkaddr);
-				deleteSuccess = true;
-			}
+		BZAddress checkaddr = addresses.get(type);
+		if (checkaddr != null) {
+			addresses.remove(type);
+			deleteSuccess = true;
 		}
 		return deleteSuccess;
 	}

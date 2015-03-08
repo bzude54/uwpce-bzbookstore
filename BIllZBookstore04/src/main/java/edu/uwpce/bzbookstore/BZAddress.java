@@ -1,25 +1,45 @@
 package edu.uwpce.bzbookstore;
 
-public interface BZAddress {
+public class BZAddress {
+	
 
-	public String getStreetAddress();
+	private String streetAddress;
+	private String city;
+	private String state;
+	private String zipcode;
+	private String addressType;
 	
-	void setStreetAddress(String streetAddress);
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+	public String getAddressType() {
+		return addressType;
+	}
+	public void setAddressType(String addressType) {
+		this.addressType = addressType;
+	}
 
-	String getCity();
-	
-	void setCity(String city);
+	public String getCity() {
+		return this.city;
+	}
 
-	String getState();
-	
-	void setState(String state);
-	
-	String getZipcode();
-	
-	void setZipcode(String zipcode);
-	
-	String getAddressType();
-	
-	void setAddressType(String addressType);
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 }

@@ -8,7 +8,7 @@ public interface BZUsersManager {
 	
 	void setUsers(Map<Integer, BZUserInfo> users);
 
-	void setSingleUser(BZUserInfo newuser);
+	int setSingleUser(BZUserInfo newuser);
 
 	BZUserInfo getSingleUserByUsername(String username);
 

@@ -1,57 +1,54 @@
 package edu.uwpce.bzbookstore;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BZCreditCardsManagerImpl implements BZCreditCardsManager {
 	
-	private List<BZCreditCard> cards;
+	private Map<String, BZCreditCard> cards;
+	
+	public BZCreditCardsManagerImpl() {
+		this.cards = new ConcurrentHashMap<String, BZCreditCard>();
+	}
 	
 	@Override
-	public List<BZCreditCard> getCards() {
+	public Map<String, BZCreditCard> getCards() {
 		return this.cards;		
 	}
 	
 	@Override
-	public void setCards(List<BZCreditCard> cards) {
+	public void setCards(Map<String, BZCreditCard> cards) {
 		this.cards = cards;
 	}
 	
 	@Override
-	public BZCreditCard getCard(String cardNumber) {
-		BZCreditCard card = null;
-		for (BZCreditCard checkcard : cards){
-			if (checkcard.getCardNumber().equals(cardNumber)){
-				card = checkcard;
-			}
-		}
+	public BZCreditCard getCard(String cardType) {
+		BZCreditCard card = cards.get(cardType);
 		return card;
 	}
 	
 	@Override
 	public void addCard(BZCreditCard card) {
-		if (card != null) {
-			cards.add(card);
-		}
+		cards.put(card.getCardType(), card);
 	}
 
 	@Override
 	public void updateCard(BZCreditCard card) {
-		for (BZCreditCard checkcard : cards) {
-			if (checkcard.getCardNumber().equals(card.getCardNumber())) {
-				cards.remove(checkcard);
-			}
+		BZCreditCard checkcard = cards.get(card.getCardType());
+		if (checkcard != null) {
+			cards.remove(card.getCardType());
 		}
-		cards.add(card);
+		cards.put(card.getCardType(), card);
 	}
 	
 	@Override
-	public boolean deleteCard(String cardNumber) {
+	public boolean deleteCard(String cardType) {
 		boolean deleteSuccess = false;
-		for (BZCreditCard checkcard : cards) {
-			if (checkcard.getCardNumber().equals(cardNumber)) {
-				cards.remove(checkcard);
-				deleteSuccess = true;
-			}
+		BZCreditCard checkcard = cards.get(cardType);
+		if (checkcard != null) {
+			cards.remove(cardType);
+			deleteSuccess = true;
 		}
 		return deleteSuccess;		
 	}

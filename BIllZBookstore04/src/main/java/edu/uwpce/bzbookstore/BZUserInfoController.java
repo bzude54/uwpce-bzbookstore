@@ -93,14 +93,14 @@ public class BZUserInfoController {
     @RequestMapping(value = "/bzaccountinfo/{userid}", method = RequestMethod.GET)
     public ModelAndView displayAccountInfoForm(HttpSession session, Model model, @PathVariable("userid") int userid) {
     	
-    	BZUserInfo accountUserInfo = new BZUserInfo();
-    	accountUserInfo = userManager.getSingleUserById(userid);
+    	BZUserInfo accountUserInfo = userManager.getSingleUserById(userid);
 //    	 logger.info("in bzacctinfo GET, userid is: " + userid);
 //     	 logger.info("in bzacctinfo GET, username is: " + accountUserInfo.getUserName());
      	 if (accountUserInfo != null) {
     	       session.setAttribute("bzuserinfo", accountUserInfo);   	
     	} else {
-    		accountUserInfo = new BZUserInfo();
+    		int newuserid =	userManager.setSingleUser(new BZUserInfo());
+    		accountUserInfo = userManager.getSingleUserById(newuserid);
     	}
         return new ModelAndView("bzaccountinfo", "BZUserInfo", accountUserInfo);    	
     	
@@ -116,12 +116,11 @@ public class BZUserInfoController {
 //    	 logger.info("in bzacctinfo, username is: " + username);
     	
 		boolean update = false;
-		Map<Integer, BZUserInfo> users = userManager.getUsers();
+//		Map<Integer, BZUserInfo> users = userManager.getUsers();
 		
-		BZUserInfo user = userManager.getSingleUserById(userid);
 		
-		if (user != null) {
-//			 logger.info("in bzacctinfo, username back from usermananger is: " + user.getUserName());
+/*		if (user != null) {
+			logger.info("in bzacctinfo, username back from usermananger is: " + user.getUserName());
 			user.setFirstName(accountUserInfo.getFirstName());
 			user.setLastName(accountUserInfo.getLastName());
 			user.setUserName(accountUserInfo.getUserName());
@@ -155,11 +154,10 @@ public class BZUserInfoController {
 			session.setAttribute("creditcard1", user.getCreditCard1());
 			user.setCreditCard2(accountUserInfo.getCreditCard2());
 			session.setAttribute("creditcard2", user.getCreditCard2());
-
+*/
+			BZUserInfo user = userManager.getSingleUserById(userid);
+			userManager.updateUser(accountUserInfo);
 			return "redirect:/bzaccountinfo/" + userid;
-		} else {
-			return "redirect:/bzregister";
-		}
 		
 		
     }

@@ -75,7 +75,7 @@ public class BZCheckoutController {
 			int userid = (Integer) session.getAttribute("userid");
 			BZCheckoutInfo checkoutinfo = (BZCheckoutInfo) session.getAttribute("bzcheckoutinfo");
 			if (checkoutinfo != null) {
-				checkoutinfo.setUserStreetAddress(bZCheckoutInfo.getUserStreetAddress());
+				checkoutinfo.getUserAddresses().get(0).(bZCheckoutInfo.getUserAddresses().get(0).getStreetAddress());
 				checkoutinfo.setUserCity(bZCheckoutInfo.getUserCity());
 				checkoutinfo.setUserState(bZCheckoutInfo.getUserState());
 				checkoutinfo.setUserZip(bZCheckoutInfo.getUserZip());
