@@ -39,8 +39,7 @@ public class BZApiUserAddressesController {
     
     @RequestMapping(value="/addresses", method=RequestMethod.GET)
     public Map<String, BZAddress> getAddresses(@PathVariable("userid") int userid){
-    	int userID = 100;
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userID).getAddresses());
+    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
     	return addressesManager.getAddresses();
     }
     

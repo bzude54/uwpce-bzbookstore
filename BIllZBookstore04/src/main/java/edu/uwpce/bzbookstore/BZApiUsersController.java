@@ -38,15 +38,15 @@ public class BZApiUsersController {
 		if (usersManager.getSingleUserByUsername(username) != null) {
             return new BZApiMessage(MsgType.ERROR, "User with username= " + username + " already exists.");
 		} else {
-			usersManager.setSingleUser(newuser);	
+			int newuserid = usersManager.setSingleUser(newuser);	
 	        response.setStatus(HttpServletResponse.SC_CREATED);
-			return usersManager.getSingleUserByUsername(username);
+			return usersManager.getSingleUserById(newuserid);
 		}   	    	
     }
     
     
     @RequestMapping(value="/users/{userid}", method=RequestMethod.PUT)
-    public BZUserInfo updateUser(@RequestBody BZUserInfo userinfo, @RequestParam("userid") int userid){
+    public BZUserInfo updateUser(@RequestBody BZUserInfo userinfo, @PathVariable("userid") int userid){
     	usersManager.updateUser(userinfo);
     	return usersManager.getSingleUserById(userid);
     }

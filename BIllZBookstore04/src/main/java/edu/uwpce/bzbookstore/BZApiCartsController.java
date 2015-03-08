@@ -20,38 +20,41 @@ import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 public class BZApiCartsController {
     
     @Autowired
+    private BZBooksManager booksManager;
+	
+	@Autowired
     private BZCartsManager cartsManager;
     
     @RequestMapping(value="/carts", method=RequestMethod.GET)
-    public Map<Integer, BZCart> getAllCarts() {
-        return cartsManager.getAllCarts();
+    public BZCart getCart(@PathVariable("userid") int userid) {
+        return cartsManager.getCart(userid);
     }
 
    
-    @RequestMapping(value="/carts/{cartid}", method=RequestMethod.GET)
-    public Object getCart(@PathVariable("userid") int userid) {
-        BZCart cart = cartsManager.getCart(userid);
-        if (cart != null) {
-            return cart;
+    @RequestMapping(value="/carts/{itemid}", method=RequestMethod.GET)
+    public Object getCartItem(@PathVariable("userid") int userid, @PathVariable("itemid") String itemid) {
+        BZCartItem cartitem = cartsManager.getCart(userid).getSingleCartItem(itemid);
+        if (cartitem != null) {
+            return cartitem;
         } else {
-            return new BZApiMessage(MsgType.ERROR, "Cart with cart id: " + userid + " does not exist.");
+            return new BZApiMessage(MsgType.ERROR, "Cart item with item id: " + itemid + " does not exist.");
         }
     }
 
     
     @RequestMapping(value="/carts", method=RequestMethod.POST)
-    public Object createCart(@RequestBody BZCart cart, HttpServletResponse response) {
-        if (cartsManager.getCart(cart.getCartId()) != null) {
-            return new BZApiMessage(MsgType.ERROR, "Cart with id: " + cart.getCartId() + " already exists.");
+    public Object createCartItem(@RequestBody BZCartItem cartitem, @PathVariable("userid") int userid, HttpServletResponse response) {
+        if (cartsManager.getCart(userid).getSingleCartItem(cartitem.getCartItemId()) != null) {
+            return new BZApiMessage(MsgType.ERROR, "Cart item with id: " + cartitem.getCartItemId() + " already exists.");
         }
-        cartsManager.setCart(cart);
+        cartsManager.getCart(userid).setSingleCartItem(cartitem);;
         response.setStatus(HttpServletResponse.SC_CREATED);
-        return cartsManager.getCart(cart.getCartId());
+        return cartsManager.getCart(userid).getSingleCartItem(cartitem.getCartItemId());
     }
     
     
-    @RequestMapping(value="/carts/{cartid}", method=RequestMethod.PUT)
-    public BZCart updateCart(@RequestBody BZCart cart) {
+    @RequestMapping(value="/carts/{itemid}", method=RequestMethod.PUT)
+    public BZCart updateCartItem(@RequestBody BZCartItem cartitem, @PathVariable("userid") int userid) {
     	cartsManager.updateCart(cart);
     	return cartsManager.getCart(cart.getCartId());
     }

@@ -27,13 +27,13 @@ public class BZUsersManagerImpl implements BZUsersManager {
 	@Value("classpath:/defaultusers.json")
 	private Resource defaultUsersResource;
 
-	public BZUsersManagerImpl() {
+/*	public BZUsersManagerImpl() {
 		this.users = new ConcurrentHashMap<Integer, BZUserInfo>();
 		logger.info("created new usersmanager, map size is: " + this.users.size());
 	}
 	
-/*	@PostConstruct
-	public void init() {
+	@PostConstruct
+	void init() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			this.users = mapper.readValue(defaultUsersResource.getInputStream(),
@@ -50,8 +50,27 @@ public class BZUsersManagerImpl implements BZUsersManager {
 			e.printStackTrace();
 		}
 	}
-*/
 	
+	private void loadUsers() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			this.users = mapper.readValue(defaultUsersResource.getInputStream(),
+					new TypeReference<HashMap<String, BZUserInfo>>() {});
+			logger.info("size of users in usersmanager after inputstream from json file: " + this.users.size());
+		} catch (JsonParseException e) {
+			logger.error("Got JSONParseException." + e);
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			logger.error("Got JSONMappingException." + e);
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("Got IOException." + e);
+			e.printStackTrace();
+		}
+	}
+
+
+*/	
 	
 	@Override
 	public Map<Integer, BZUserInfo> getUsers() {
@@ -87,6 +106,7 @@ public class BZUsersManagerImpl implements BZUsersManager {
 	public BZUserInfo getSingleUserByUsername(String username) {
 		BZUserInfo userresult = null;
 		for (BZUserInfo user : users.values()) {
+			logger.debug("in getsingleuserbyusername, username is: " + user.getUserName());
 			if (user.getUserName().equals(username)){
 				userresult = user;
 			}
