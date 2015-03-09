@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 
 @RestController
-@RequestMapping("/api/users/{userid}")
+@RequestMapping("/api/users/{userId}")
 public class BZApiCartsController {
     
     @Autowired
@@ -26,47 +26,72 @@ public class BZApiCartsController {
     private BZCartsManager cartsManager;
     
     @RequestMapping(value="/carts", method=RequestMethod.GET)
-    public BZCart getCart(@PathVariable("userid") int userid) {
-        return cartsManager.getCart(userid);
+    public Object getCart(@PathVariable("userId") int userId) {
+        BZCart cart = cartsManager.getCart(userId);
+        if (cart.getCartQty() > 0) {
+            return cart;
+        } else {
+    		return new BZApiMessage(MsgType.INFO, "Your cart is empty.");
+        }
+    }
+    
+    
+    @RequestMapping(value="/carts", method=RequestMethod.PUT)
+    public BZCart updateCart(@RequestBody BZCartImpl cart, @PathVariable("userId") int userId) {
+    	cartsManager.deleteCart(userId);
+    	cartsManager.setCart(cart);
+    	return cartsManager.getCart(userId);
     }
 
+
+    @RequestMapping(value="/carts", method=RequestMethod.DELETE)
+    public Object deleteCart(@PathVariable("userId") int userId, HttpServletResponse response) {
+    	if (cartsManager.deleteCart(userId)) {
+    		return new BZApiMessage(MsgType.INFO, "Cart with id: " + userId + " has been deleted");
+       	} else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return new BZApiMessage(MsgType.ERROR, "Cart with id: " + userId + " was not found.");
+    	}
+    }
    
-    @RequestMapping(value="/carts/{itemid}", method=RequestMethod.GET)
-    public Object getCartItem(@PathVariable("userid") int userid, @PathVariable("itemid") String itemid) {
-        BZCartItem cartitem = cartsManager.getCart(userid).getSingleCartItem(itemid);
+    @RequestMapping(value="/carts/{itemId}", method=RequestMethod.GET)
+    public Object getCartItem(@PathVariable("userId") int userId, @PathVariable("itemId") String itemId) {
+        BZCartItem cartitem = cartsManager.getCart(userId).getSingleCartItem(itemId);
         if (cartitem != null) {
             return cartitem;
         } else {
-            return new BZApiMessage(MsgType.ERROR, "Cart item with item id: " + itemid + " does not exist.");
+            return new BZApiMessage(MsgType.ERROR, "Cart item with item id: " + itemId + " does not exist.");
         }
     }
 
     
     @RequestMapping(value="/carts", method=RequestMethod.POST)
-    public Object createCartItem(@RequestBody BZCartItem cartitem, @PathVariable("userid") int userid, HttpServletResponse response) {
-        if (cartsManager.getCart(userid).getSingleCartItem(cartitem.getCartItemId()) != null) {
-            return new BZApiMessage(MsgType.ERROR, "Cart item with id: " + cartitem.getCartItemId() + " already exists.");
+    public Object createCartItem(@RequestBody BZBook book, @PathVariable("userId") int userId, HttpServletResponse response) {
+        if (cartsManager.getCart(userId).getSingleCartItem(book.getISBN()) != null) {
+            return new BZApiMessage(MsgType.ERROR, "Cart item with id: " + book.getISBN() + " already exists.");
         }
-        cartsManager.getCart(userid).setSingleCartItem(cartitem);;
+        BZCartItem newCartItem = new BZCartItemImpl(book);
+        cartsManager.getCart(userId).setSingleCartItem(newCartItem);
         response.setStatus(HttpServletResponse.SC_CREATED);
-        return cartsManager.getCart(userid).getSingleCartItem(cartitem.getCartItemId());
+        return cartsManager.getCart(userId).getSingleCartItem(newCartItem.getCartItemId());
     }
     
     
-    @RequestMapping(value="/carts/{itemid}", method=RequestMethod.PUT)
-    public BZCart updateCartItem(@RequestBody BZCartItem cartitem, @PathVariable("userid") int userid) {
-    	cartsManager.updateCart(cart);
-    	return cartsManager.getCart(cart.getCartId());
+    @RequestMapping(value="/carts/{itemId}", method=RequestMethod.PUT)
+    public BZCartItem updateCartItem(@RequestBody BZBook book, @PathVariable("userId") int userId, @PathVariable("itemId") String itemId) {
+        BZCartItem newCartItem = new BZCartItemImpl(book);
+    	cartsManager.updateCartItem(userId, newCartItem);
+    	return cartsManager.getCartItem(userId, itemId);
     }
     
     
-    @RequestMapping(value="/carts/{cartid}", method=RequestMethod.DELETE)
-    public Object deleteCart(@PathVariable("cartid") int cartid, HttpServletResponse response) {
-    	if (cartsManager.deleteCart(cartid)) {
-    		return new BZApiMessage(MsgType.INFO, "Cart with id: " + cartid + " has been deleted");
+    @RequestMapping(value="/carts/{itemId}", method=RequestMethod.DELETE)
+    public Object deleteCartItem(@PathVariable("itemId") String itemId, @PathVariable("userId") int userId, HttpServletResponse response) {
+    	if (cartsManager.deleteCartItem(userId, itemId)) {
+    		return new BZApiMessage(MsgType.INFO, "Cart item with id: " + itemId + " has been deleted");
        	} else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return new BZApiMessage(MsgType.ERROR, "Cart with id: " + cartid + " was not found.");
+            return new BZApiMessage(MsgType.ERROR, "Cart item with id: " + itemId + " was not found.");
     	}
     }
     

@@ -15,6 +15,14 @@ public interface BZCartsManager {
 	BZCart updateCart(BZCart cart);
 	
 	boolean deleteCart(int cartid);
+
+	void addCartItem(int cartid, BZCartItem cartitem);
+	
+	BZCartItem getCartItem(int cartid, String cartitemid);
+			
+	void updateCartItem(int cartid, BZCartItem cartitem);
+	
+	boolean deleteCartItem(int cartid, String cartitemid);
 			
 	double getCartTax(int cartId);
 		

@@ -73,6 +73,45 @@ public class BZCartsManagerImpl implements BZCartsManager {
 		return deleteSuccess;
 	}
 
+	@Override
+	public void addCartItem(int cartId, BZCartItem cartItem) {
+		BZCart checkcart = carts.get(cartId);
+		if (checkcart != null) {
+			carts.get(cartId).setSingleCartItem(cartItem);
+		} else {
+			BZCart newcart = new BZCartImpl(cartId);
+			newcart.setSingleCartItem(cartItem);
+		}		
+	}
+
+	@Override
+	public BZCartItem getCartItem(int cartId, String cartItemId) {
+		return carts.get(cartId).getSingleCartItem(cartItemId);
+	}
+
+	@Override
+	public void updateCartItem(int cartId, BZCartItem cartItem) {
+		BZCart checkcart = carts.get(cartId);
+		if (checkcart != null) {
+			carts.get(cartId).setSingleCartItem(cartItem);
+		} else {
+			BZCart newcart = new BZCartImpl(cartId);
+			newcart.setSingleCartItem(cartItem);
+		}		
+	}
+
+	@Override
+	public boolean deleteCartItem(int cartId, String cartItemId) {
+		boolean deleteSuccess = false;
+		BZCart checkcart = carts.get(cartId);
+		if ((checkcart != null) && (checkcart.getSingleCartItem(cartItemId) != null)){
+			checkcart.getCartItems().remove(cartItemId);
+			deleteSuccess = true;
+		}
+		return deleteSuccess;
+	}
+
+
 
 	@Override
 	public double getCartTax(int cartId) {

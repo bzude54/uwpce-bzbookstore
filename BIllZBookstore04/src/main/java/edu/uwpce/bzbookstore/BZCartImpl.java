@@ -17,25 +17,25 @@ public class BZCartImpl implements BZCart {
 	private static final double SHIPPING_COST_OVER_THRESHOLD = 15.00;
 	private static final int SHIPPING_QTY_THRESHOLD = 5;
     
-    List<BZCartItem> cartItems;
+    Map<String, BZCartItem> cartItems;
 	int cartId;
 
 	public BZCartImpl(){
-		cartItems = new ArrayList<BZCartItem>();
+		cartItems = new ConcurrentHashMap<String, BZCartItem>();
 	}
 	
 	public BZCartImpl(int userId) {
-		cartItems = new ArrayList<BZCartItem>();
+		cartItems = new ConcurrentHashMap<String, BZCartItem>();
 		this.cartId = userId;
 	}
 	
 	@Override
-	public List<BZCartItem> getCartItems() {
+	public Map<String, BZCartItem> getCartItems() {
 		return cartItems;
 	}
 
 	@Override
-	public void setCartItems(List<BZCartItem> cart) {
+	public void setCartItems(Map<String, BZCartItem> cart) {
 		this.cartItems = cart;
 	}
 
@@ -52,54 +52,39 @@ public class BZCartImpl implements BZCart {
 	@Override
 	public BZCartItem getSingleCartItem(String itemId) {
 		logger.info("in getsinglecartitem itemId is: " + itemId);
-		BZCartItem cartItem = null;
-		if (itemId != null) {
-			for (BZCartItem item : cartItems) {
-				if (itemId.equals(item.getCartItemBook().getISBN())) {
-					cartItem = item;
-					logger.info("in getsinglecartitem found cartitem matching itemId: " + item.getCartItemBook().getISBN());
-				}
-			}
-		}
+		BZCartItem cartItem = cartItems.get(itemId);
 		return cartItem;
 	}
 
 	@Override
-	public void setSingleCartItem(BZCartItem item) {
-		if (item != null) {
+	public void setSingleCartItem(BZCartItem cartitem) {
+		if (cartItems.get(cartitem.getCartItemId()) == null) {
 			logger.info("adding BZCartItem to BZCart!");
-			cartItems.add(item);
-			logger.info("added: " + item.getCartItemBook().getISBN());
+			cartItems.put(cartitem.getCartItemId(), cartitem);
+			logger.info("added: " + cartItems.get(cartitem.getCartItemId()));
+		} else {
+			cartItems.get(cartitem.getCartItemId()).incrementCartItemQty();
 		}
 	}
 
 	@Override
 	public int getCartItemQty(String itemId) {
-		int itemQty = 0;
-		if (itemId != null) {
-			for (BZCartItem item : cartItems) {
-				if (itemId.equals(item.getCartItemBook().getISBN())) {
-					itemQty = item.getCartItemQty();
-				}
-			}
-		}
-		return itemQty;
+		return cartItems.get(itemId).getCartItemQty();
 	}
 
 	@Override
 	public void setCartItemQty(String itemId, int qty) {
-		BZCartItemImpl cartItem = (BZCartItemImpl) this.getSingleCartItem(itemId);
 		if (qty == 0){
-			cartItems.remove(cartItem);
+			cartItems.remove(itemId);
 		} else {
-			cartItem.setCartItemQty(qty);
+			cartItems.get(itemId).setCartItemQty(qty);
 		}
 	}
 
 	@Override
 	public double getCartSubtotal() {
 		double cartSubTotal = 0.0;
-		for (BZCartItem item : cartItems) {
+		for (BZCartItem item : cartItems.values()) {
 			cartSubTotal += item.getCartItemTotalPrice();			
 		}		
 		return cartSubTotal;
@@ -108,7 +93,7 @@ public class BZCartImpl implements BZCart {
 	@Override
 	public int getCartQty() {
 		int cartQty = 0;
-		for (BZCartItem item : cartItems) {
+		for (BZCartItem item : cartItems.values()) {
 			cartQty += item.getCartItemQty();			
 		}		
 		return cartQty;

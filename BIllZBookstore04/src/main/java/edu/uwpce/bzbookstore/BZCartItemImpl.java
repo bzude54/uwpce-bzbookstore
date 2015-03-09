@@ -74,6 +74,7 @@ public class BZCartItemImpl implements BZCartItem {
 	@Override
 	public void incrementCartItemQty() {
 		this.cartItemQty += 1;
+		this.setCartItemTotalPrice();
 	}
 
 
