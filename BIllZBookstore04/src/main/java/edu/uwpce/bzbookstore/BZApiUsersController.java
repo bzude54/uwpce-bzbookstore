@@ -29,8 +29,13 @@ public class BZApiUsersController {
     
     
     @RequestMapping(value="/users/{userid}", method=RequestMethod.GET)
-    public BZUserInfo getUser(HttpServletResponse response, @PathVariable("userid") int userid) {
-    	return usersManager.getSingleUserById(userid);
+    public Object getUser(@PathVariable("userid") int userid, HttpServletResponse response) {
+    	BZUserInfo user = usersManager.getSingleUserById(userid);
+    	if (user == null) {
+            return new BZApiMessage(MsgType.ERROR, "User with id = " + userid + " does not exist.");
+    	} else {
+    		return user;
+    	}
     }
     
     @RequestMapping(value="/users/{username}", method=RequestMethod.POST)
@@ -46,9 +51,14 @@ public class BZApiUsersController {
     
     
     @RequestMapping(value="/users/{userid}", method=RequestMethod.PUT)
-    public BZUserInfo updateUser(@RequestBody BZUserInfo userinfo, @PathVariable("userid") int userid){
+    public Object updateUser(@RequestBody BZUserInfo userinfo, @PathVariable("userid") int userid){
     	usersManager.updateUser(userinfo);
-    	return usersManager.getSingleUserById(userid);
+       	BZUserInfo user = usersManager.getSingleUserById(userid);
+    	if (user == null) {
+            return new BZApiMessage(MsgType.ERROR, "User with id = " + userid + " not successfully updated.");
+    	} else {
+    		return user;
+    	}
     }
     
     

@@ -22,14 +22,10 @@ import edu.uwpce.bzbookstore.BZApiMessage.MsgType;
 @RequestMapping("/api/users/{userid}")
 public class BZApiUserAddressesController {
    
-	@Autowired
-    private BZUsersManager usersManager;
     
     @Autowired
-    private BZAddressesManager addressesManager;
-    
-    private Map<String, BZAddress> addresses;
- 	
+    private BZAddressesService addressesService;
+     	
 
  /*   public BZApiUserAddressesController() {
     	usersManager = new BZUsersManagerImpl();
@@ -38,48 +34,54 @@ public class BZApiUserAddressesController {
     
     
     @RequestMapping(value="/addresses", method=RequestMethod.GET)
-    public Map<String, BZAddress> getAddresses(@PathVariable("userid") int userid){
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
-    	return addressesManager.getAddresses();
+    public Object getAddresses(@PathVariable("userid") int userid){
+    	List<BZAddress> addresslist = addressesService.getAddresses(userid);
+    	if (addresslist == null) {
+            return new BZApiMessage(MsgType.ERROR, "The user with id = " + userid + " has no addresses on file.");
+    	} else {
+    		return addresslist;
+    	}
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.GET)
-    public BZAddress getAddress(HttpServletResponse response, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid) {
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
-    	return addressesManager.getAddress(addressid);
+    public Object getAddress(HttpServletResponse response, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid) {
+    	BZAddress address = addressesService.getAddress(userid, addressid);
+    	if (address == null) {
+            return new BZApiMessage(MsgType.ERROR, "The address with id = " + addressid + " does not exist.");
+    	} else {
+    		return address;
+    	}
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.POST)
     public Object createAddress(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
-		if (addressesManager.getAddress(addressid) != null) {
+		if (addressesService.getAddress(userid, addressid) != null) {
             return new BZApiMessage(MsgType.ERROR, "Address of type: " + addressid + " already exists.");
 		} else {
-			addressesManager.addAddress(newaddress);
-			usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
+			addressesService.addAddress(userid, newaddress);
 	        response.setStatus(HttpServletResponse.SC_CREATED);
-			return addressesManager.getAddress(addressid);
+			return addressesService.getAddresses(userid);
 		}
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.PUT)
-    public BZAddress updateAddress(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid){
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
-    	addressesManager.updateAddress(newaddress);
-		usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
-		return addressesManager.getAddress(addressid);
-    
+    public Object updateAddress(@RequestBody BZAddress newaddress, @PathVariable("userid") int userid, @PathVariable("addressid") String addressid){
+    	addressesService.updateAddress(userid, newaddress);
+    	BZAddress checkaddress = addressesService.getAddress(userid, addressid);
+    	if (checkaddress == null) {
+            return new BZApiMessage(MsgType.ERROR, "The address with id = " + addressid + " was not successfully updated.");
+    	} else {
+    		return addressesService.getAddresses(userid);
+    	}
     }
     
     
     @RequestMapping(value="/addresses/{addressid}", method=RequestMethod.DELETE)
     public Object deleteAddress(@PathVariable("userid") int userid, @PathVariable("addressid") String addressid, HttpServletResponse response) {
-    	addressesManager.setAddresses(usersManager.getSingleUserById(userid).getAddresses());
-    	if (addressesManager.deleteAddress(addressid)){
-    		usersManager.getSingleUserById(userid).setAddresses(addressesManager.getAddresses());
+    	if (addressesService.deleteAddress(userid, addressid)){
     		return new BZApiMessage(MsgType.INFO, "Address of type: " + addressid + " has been deleted.");
     	} else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

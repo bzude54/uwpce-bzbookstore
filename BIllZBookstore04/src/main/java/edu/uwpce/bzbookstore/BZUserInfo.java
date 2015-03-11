@@ -31,12 +31,12 @@ public class BZUserInfo implements Serializable{
 	@Size(min=8, max=8, message="Password must be 8 characters.")	
 	private String password;
 	
-    private Map<String, BZAddress> addresses;
+    private List<BZAddress> addresses;
     
 	private String phoneNumber1;
 	private String phoneNumber2;
 
-	private Map<String, BZCreditCard> cards;
+	private List<BZCreditCard> cards;
 	
 	public BZUserInfo() {}
 	
@@ -76,12 +76,26 @@ public class BZUserInfo implements Serializable{
 		this.password = password;
 	}
 	
-	public Map<String, BZAddress> getAddresses() {
+	public List<BZAddress> getAddresses() {
 		return this.addresses;
 	}
 	
-	public void setAddresses(Map<String, BZAddress> addresses) {
+	public void setAddresses(List<BZAddress> addresses) {
 		this.addresses = addresses;
+	}
+	
+	public BZAddress getAddress(String type) {
+		BZAddress addr = null;
+		for (BZAddress checkaddr : addresses) {
+			if (checkaddr.getAddressType().equals(type)) {
+				addr = checkaddr;
+			}
+		}
+		return addr;
+	}
+	
+	public void setAddress(BZAddress addr) {
+		addresses.add(addr);
 	}
 	
 	public String getPhoneNumber1() {
@@ -100,12 +114,27 @@ public class BZUserInfo implements Serializable{
 		this.phoneNumber2 = phoneNumber2;
 	}
 	
-	public Map<String, BZCreditCard> getCards() {
+	public List<BZCreditCard> getCards() {
 		return cards;
 	}
 
-	public void setCards(Map<String, BZCreditCard> cards) {
+	public void setCards(List<BZCreditCard> cards) {
 		this.cards = cards;
 	}
+	
+	public BZCreditCard getCard(String type) {
+		BZCreditCard card = null;
+		for (BZCreditCard checkcard : cards) {
+			if (checkcard.getCardType().equals(type)) {
+				card = checkcard;
+			}
+		}
+		return card;
+	}
+	
+	public void setCard(BZCreditCard card) {
+		cards.add(card);
+	}
+
 
 }
