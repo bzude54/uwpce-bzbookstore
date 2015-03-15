@@ -5,9 +5,9 @@ import java.util.Map;
 
 public interface BZCart {
 
-	Map<String, BZCartItem> getCartItems();
+	List<BZCartItem> getCartItems();
 	
-	void setCartItems(Map<String, BZCartItem> cart);
+	void setCartItems(List<BZCartItem> cart);
 	
 	BZCartItem getSingleCartItem(String itemId);
 	

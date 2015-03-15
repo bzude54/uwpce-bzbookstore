@@ -74,13 +74,13 @@ public class BZCheckoutController {
 //			logger.info("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
 			int userid = (Integer) session.getAttribute("userid");
 			BZCheckoutInfo checkoutinfo = (BZCheckoutInfo) session.getAttribute("bzcheckoutinfo");
-			if (checkoutinfo != null) {
-				checkoutinfo.getUserAddresses().get(0).(bZCheckoutInfo.getUserAddresses().get(0).getStreetAddress());
-				checkoutinfo.setUserCity(bZCheckoutInfo.getUserCity());
-				checkoutinfo.setUserState(bZCheckoutInfo.getUserState());
-				checkoutinfo.setUserZip(bZCheckoutInfo.getUserZip());
-				checkoutinfo.setUserCreditCard(bZCheckoutInfo.getUserCreditCard());
-			}
+//			if (checkoutinfo != null) {
+//				checkoutinfo.getUserAddresses().get(0).(bZCheckoutInfo.getUserAddresses().get(0).getStreetAddress());
+//				checkoutinfo.setUserCity(bZCheckoutInfo.getUserCity());
+//				checkoutinfo.setUserState(bZCheckoutInfo.getUserState());
+//				checkoutinfo.setUserZip(bZCheckoutInfo.getUserZip());
+//				checkoutinfo.setUserCreditCard(bZCheckoutInfo.getUserCreditCard());
+//			}
 //			logger.info("shipping address is: " + checkoutManager.getCheckoutinfo().getUserStreetAddress());
 //			logger.info("credit card1 is: " + checkoutManager.getCheckoutinfo().getUserCreditCard());
 //			logger.info("validshippingaddress is: " + checkoutManager.validShippingAddress());
@@ -94,6 +94,7 @@ public class BZCheckoutController {
 				model.addAttribute("bZCheckoutInfo", checkoutinfo);
 				return "redirect:/bzcheckout/" + userid;
 			}			
+	
 		}
 		
 		

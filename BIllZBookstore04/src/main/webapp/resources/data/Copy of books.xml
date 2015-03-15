@@ -4,6 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="bookManager" class="edu.uwpce.bzbookstore.BZBooksManagerImpl">
+		<property name="books">
+			<map>
+				<entry key="978-0441569595" value-ref="book1" />
+				<entry key="978-0553293357" value-ref="book2" />
+				<entry key="978-0553380163" value-ref="book3" />
+				<entry key="978-0810998025" value-ref="book4" />
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="bookReviewManager" class="edu.uwpce.bzbookstore.BZBookReviewsManagerImpl">

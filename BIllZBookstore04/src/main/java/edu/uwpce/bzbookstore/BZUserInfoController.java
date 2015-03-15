@@ -5,12 +5,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,16 +78,20 @@ public class BZUserInfoController {
     public ModelAndView displayRegisterForm() {
 
         // This is a shortcut if we only have one attribute to put in our model
-        return new ModelAndView("bzregister", "newUserInfo", new BZUserInfo()); 
+        return new ModelAndView("bzregister", "bZUserInfo", new BZUserInfo()); 
     }
 
     @RequestMapping(value = "/bzregister", method = RequestMethod.POST)
     public String processRegister(HttpSession session,
-                               @ModelAttribute BZUserInfo user) {
+                               @ModelAttribute @Valid BZUserInfo userInfo, Errors errors) {
 
-    	userManager.setSingleUser(user);
-        session.setAttribute("username", user.getUserName());
-        session.setAttribute("userid", user.getUserId());
+/*        if (errors.hasErrors()) {
+            return "bzregister";
+        }
+ */       
+    	userManager.setSingleUser(userInfo);
+        session.setAttribute("username", userInfo.getUserName());
+        session.setAttribute("userid", userInfo.getUserId());
  //     logger.info("new userid after register is: " + user.getUserId());
         return "redirect:/bzlogin";
     }
@@ -102,7 +108,7 @@ public class BZUserInfoController {
     		int newuserid =	userManager.setSingleUser(new BZUserInfo());
     		accountUserInfo = userManager.getSingleUserById(newuserid);
     	}
-        return new ModelAndView("bzaccountinfo", "BZUserInfo", accountUserInfo);    	
+        return new ModelAndView("bzaccountinfo", "bZUserInfo", accountUserInfo);    	
     	
     }
     

@@ -1,25 +1,64 @@
 package edu.uwpce.bzbookstore;
 
-public interface BZCartItem {
-	
-	
-	BZBook getCartItemBook();	
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	void setCartItemBook(BZBook book);
+public class BZCartItem {
 	
-	String getCartItemId();
+    private static final Logger logger = LoggerFactory.getLogger(BZCartItem.class);
 	
-	void setCartItemId(String itemId);
+	private String cartItemId;
+	private int cartItemQty;
+	private BZBook cartItemBook;
 	
-	int getCartItemQty();
+	public BZCartItem(){
+		this.cartItemQty = 0;
+		this.cartItemBook = new BZBook();
+		this.cartItemId = null;
+	}
 
-	void setCartItemQty(int qty);
+	public BZCartItem(BZBook book) {
+		this.cartItemQty = 1;
+		this.cartItemBook = book;
+		this.cartItemId = book.getISBN();
+	}
+
+	public String getCartItemId() {
+		return cartItemId;
+	}
+
+	public void setCartItemId(String itemId) {
+			this.cartItemId = itemId;
+			logger.info("in setCartItemId setting id to: " + this.cartItemId);
+	}
+
+	public int getCartItemQty() {
+		return cartItemQty;
+	}
+
+	public void setCartItemQty(int qty) {
+		this.cartItemQty = qty;
+	}
 	
-	void setCartItemTotalPrice();
+	public double getCartItemTotalPrice() {
+		return this.cartItemQty * cartItemBook.getPrice();	
+	}
 
-	double getCartItemTotalPrice();
 
-	void incrementCartItemQty();
+	public BZBook getCartItemBook() {
+		return cartItemBook;
+	}
+
+	public void setCartItemBook(BZBook book) {
+		logger.info("in setCartItemBook with book: " + book.getTitle());
+		this.cartItemBook = book;
+		this.cartItemId = book.getISBN();
+	}
+
+
+	public void incrementCartItemQty() {
+		this.cartItemQty += 1;
+	}
 
 
 }

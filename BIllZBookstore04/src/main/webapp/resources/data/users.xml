@@ -12,7 +12,7 @@
 	</bean>
 
 	<bean id="user1" class="edu.uwpce.bzbookstore.BZUserInfo">
-		<property name="userName" value="rah-roh" />
+		<property name="userName" value="buzz" />
 		<property name="password" value="pwd" />
 		<property name="userId" value="100" />
 		<property name="firstName" value="George" />
@@ -52,7 +52,7 @@
 	
 	<bean id="card1" class="edu.uwpce.bzbookstore.BZCreditCard">
 		<property name="cardNumber" value="1234567890987654"/>
-		<property name="cardExpirationDate" value="Sep 2019"/>
+		<property name="cardExpirationDate" value="10/2019"/>
 		<property name="cardType" value="primary"/>
 		<property name="cardCode" value="999"/>
 		<property name="cardOwnerName" value="GEorge Jetson" />

@@ -70,7 +70,7 @@ public class BZApiCartsController {
         if (cartsManager.getCart(userId).getSingleCartItem(book.getISBN()) != null) {
             return new BZApiMessage(MsgType.ERROR, "Cart item with id: " + book.getISBN() + " already exists.");
         }
-        BZCartItem newCartItem = new BZCartItemImpl(book);
+        BZCartItem newCartItem = new BZCartItem(book);
         cartsManager.getCart(userId).setSingleCartItem(newCartItem);
         response.setStatus(HttpServletResponse.SC_CREATED);
         return cartsManager.getCart(userId).getSingleCartItem(newCartItem.getCartItemId());
@@ -79,7 +79,7 @@ public class BZApiCartsController {
     
     @RequestMapping(value="/carts/{itemId}", method=RequestMethod.PUT)
     public BZCartItem updateCartItem(@RequestBody BZBook book, @PathVariable("userId") int userId, @PathVariable("itemId") String itemId) {
-        BZCartItem newCartItem = new BZCartItemImpl(book);
+        BZCartItem newCartItem = new BZCartItem(book);
     	cartsManager.updateCartItem(userId, newCartItem);
     	return cartsManager.getCartItem(userId, itemId);
     }

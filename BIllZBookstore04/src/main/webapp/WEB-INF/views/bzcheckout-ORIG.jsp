@@ -30,7 +30,17 @@ Please update your shipping address and credit card as necessary.</p>
 	<tr><td>Cart total: </td><td><fmt:formatNumber value="${ bZCheckoutInfo.cart.cartTotal }" type="currency"/></td></tr>
 </table>
 <br />
-
+<table style="width:60%; border:2px solid black">
+	<form:hidden path="cartId" />
+	<tr><td colspan="2">Your shipping address and credit card info. Please update if necessary.</td></tr>   			
+    <tr><td><form:label path="userStreetAddress">Shipping Address street:</form:label></td><td><form:input path="userStreetAddress"/></td></tr>
+    <tr><td><form:label path="userCity">Shipping address city:</form:label></td><td><form:input path="userCity"/></td></tr>
+    <tr><td><form:label path="userState">Shipping address state:</form:label></td><td><form:input path="userState"/></td></tr>
+    <tr><td><form:label path="userZip">Shipping address zipcode:</form:label></td><td><form:input path="userZip"/></td></tr>
+    <tr><td><form:label path="userCreditCard">Credit card number 1:</form:label></td><td><form:input path="userCreditCard"/></td></tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>&nbsp;</td><td><input type="submit" value="Update Info"/></td></tr>
+ </table>
 
 </form:form>
 <p>If you're ready to complete your order, click <a href="<c:url value="/bzthankyou"/>">here.</a></p>

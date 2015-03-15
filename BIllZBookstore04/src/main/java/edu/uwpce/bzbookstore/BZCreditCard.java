@@ -1,36 +1,74 @@
 package edu.uwpce.bzbookstore;
 
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class BZCreditCard {
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class BZCreditCard implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4626533148786538912L;
+	private static final long serialVersionUID = -8245531127225057547L;
 	
+	@Size(min=16, max=16)
 	private String cardNumber;
-	private String cardExpirationDate;
+	
+	@Future(message="This card has expired. The card expiration must be a date in the future.")
+	private Date cardExpirationDate;
+	
 	private String cardType;
+	
+	@Pattern(regexp = "\\d{3}", message="The card code are the 3 digits on the back of your card.")
 	private String cardCode;
+	
+	@NotEmpty(message="Enter the name as it appears in the card.")
 	private String cardOwnerName;
+	
 	private String cardVendor;
+	
 	private int cardOwnerId;
 	
 	
 	public BZCreditCard(){};
 	
-	public BZCreditCard(int cardOwnerId, String cardNumber, String expiration, String cardType, String cardCode, String cardVendor, String cardOwnerName) {
+	public BZCreditCard(int cardOwnerId, String cardNumber, String expirationStr, String cardType, String cardCode, String cardVendor, String cardOwnerName) {
 		this.cardCode = cardCode;
 		this.cardNumber = cardNumber;
 		this.cardOwnerId = cardOwnerId;
 		this.cardOwnerName = cardOwnerName;
 		this.cardType = cardType;
 		this.cardVendor = cardVendor;
-		this.cardExpirationDate = expiration;
+		this.cardExpirationDate = parseDateString(expirationStr);
 		
 	}
 		
+
+	private Date parseDateString(String expirationStr) {
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+		String dateInString = expirationStr;
+		Date date = null;
+	 
+		try {
+	 
+			date = formatter.parse(dateInString);
+			System.out.println(date);
+			System.out.println(formatter.format(date));
+	 
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;		
+	}
+	
 
 	public int getCardOwnerId() {
 		return cardOwnerId;
@@ -48,12 +86,12 @@ public class BZCreditCard {
 		this.cardNumber = cardNumber;
 	}
 
-	public String getCardExpirationDate() {
+	public Date getCardExpirationDate() {
 		return this.cardExpirationDate;
 	}
 
-	public void setCardExpirationDate(String expiration) {
-		this.cardExpirationDate = expiration;
+	public void setCardExpirationDate(String expirationStr) {
+		this.cardExpirationDate = this.parseDateString(expirationStr);
 	}
 
 	public String getCardType() {

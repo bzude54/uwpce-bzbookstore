@@ -1,14 +1,16 @@
 package edu.uwpce.bzbookstore;
 
+import java.util.List;
+
 public interface BZCheckoutInfoValidator {
 	
 	boolean validate(BZCheckoutInfo checkoutinfo);
 	
-	boolean validShippingAddress(BZCheckoutInfo checkoutinfo);
+	boolean validShippingAddress(List<BZAddress> addresses);
 	
-	boolean validCreditCard(BZCheckoutInfo checkoutinfo);
+	boolean validCreditCard(List<BZCreditCard> cards);
 	
-	boolean validAge(BZCheckoutInfo checkoutinfo);
+	boolean validAge(BZUserInfo userinfo);
 	
 	boolean validGiftcard(BZCheckoutInfo checkoutinfo);
 	

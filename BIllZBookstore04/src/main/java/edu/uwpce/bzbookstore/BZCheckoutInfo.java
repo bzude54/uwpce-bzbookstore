@@ -43,20 +43,20 @@ public class BZCheckoutInfo {
 		return cart.getCartTotal();
 	}
 
-	public Map<String, BZAddress> getUserAddresses() {
+	public List<BZAddress> getUserAddresses() {
 		return userInfo.getAddresses();
 	}
 	
-	public void setUserAddresses(Map<String, BZAddress> addresses)	{
+	public void setUserAddresses(List<BZAddress> addresses)	{
 		this.userInfo.setAddresses(addresses);
 	}
 
-	public Map<String, BZCreditCard> getUserCreditCards() {
+	public List<BZCreditCard> getUserCreditCards() {
 		return userInfo.getCards();
 	}
 	
 	public void setUserCreditCards(List<BZCreditCard> cards) { 
-		this.userInfo.setCards((Map<String, BZCreditCard>) cards);
+		this.userInfo.setCards(cards);
 	}
 
 

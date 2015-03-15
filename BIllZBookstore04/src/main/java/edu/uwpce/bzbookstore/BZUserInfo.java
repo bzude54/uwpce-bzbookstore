@@ -31,15 +31,21 @@ public class BZUserInfo implements Serializable{
 	@Size(min=8, max=8, message="Password must be 8 characters.")	
 	private String password;
 	
+    @Pattern(regexp=".*@.*",
+            message="must be a valid email address")
+    private String emailAddress;
+	
     private List<BZAddress> addresses;
     
-	private String phoneNumber1;
+    @Pattern(regexp="\\d{3}-\\d{3}-\\d{4}", message="Enter phone number as 'xxx-xxx-xxxx'.")
+    private String phoneNumber1;
+    
+    
 	private String phoneNumber2;
 
 	private List<BZCreditCard> cards;
 	
-	public BZUserInfo() {}
-	
+		
 	
 	public int getUserId() {
 		return userId;
@@ -76,6 +82,16 @@ public class BZUserInfo implements Serializable{
 		this.password = password;
 	}
 	
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+
+	public void setEmailAddress(String email) {
+		this.emailAddress = email;
+	}
+
+
 	public List<BZAddress> getAddresses() {
 		return this.addresses;
 	}

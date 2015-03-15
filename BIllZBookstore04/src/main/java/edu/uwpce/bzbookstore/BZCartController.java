@@ -56,7 +56,7 @@ public class BZCartController {
 			cartItem.incrementCartItemQty();
 		} else {
 //			logger.info("cartItem IS null!");
-			cartItem = new BZCartItemImpl(bookManager.getSingleBook(bookid));
+			cartItem = new BZCartItem(bookManager.getSingleBook(bookid));
 //			logger.info("cartItem has an id: " + cartItem.getCartItemId());
 			bzcart.setSingleCartItem(cartItem);
 		}
@@ -95,7 +95,7 @@ public class BZCartController {
 		session.setAttribute("numCartItems", bzcart.getCartQty());
 
 
-		return new ModelAndView("bzcart", "bZSimpleCart", bzcart);
+		return new ModelAndView("bzcart", "bZCartImpl", bzcart);
 	}
 
 	@RequestMapping(value = "/bzcart", method = RequestMethod.POST)
