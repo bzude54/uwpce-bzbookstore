@@ -28,6 +28,8 @@ Please update your shipping address and credit card as necessary.</p>
 	<tr><td>Cart shipping: </td><td><fmt:formatNumber value="${ bZCheckoutInfo.cart.cartShippingCost }" type="currency"/></td></tr>
 	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 	<tr><td>Cart total: </td><td><fmt:formatNumber value="${ bZCheckoutInfo.cart.cartTotal }" type="currency"/></td></tr>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>&nbsp;</td><td><input type="submit" value="Confirm Checkout"/></td></tr>
 </table>
 <br />
 

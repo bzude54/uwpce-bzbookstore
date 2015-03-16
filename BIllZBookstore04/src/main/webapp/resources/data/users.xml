@@ -17,20 +17,7 @@
 		<property name="userId" value="100" />
 		<property name="firstName" value="George" />
 		<property name="lastName" value="Jetson" />
-		<property name="phoneNumber1" value="206-574-8090" />
-		<property name="phoneNumber2" value="206-555-1313" />
-		<property name="addresses">
-			<list>
-				<ref bean="address1" />
-				<ref bean="address2" />			
-			</list>
-		</property>
-		<property name="cards">
-			<list>
-				<ref bean="card1"/>
-			</list>
-		</property>
-		
+		<property name="phoneNumber1" value="206-574-8090" />		
 	</bean>
 	
 	
@@ -39,7 +26,7 @@
 		<property name="city" value="Seattle"/>
 		<property name="state" value="WA"/>
 		<property name="zipcode" value="98133"/>
-		<property name="addressType" value="primary" />
+		<property name="addressType" value="mailing" />
 	</bean>
 	
 	<bean id="address2" class="edu.uwpce.bzbookstore.BZAddress">
@@ -47,7 +34,7 @@
 		<property name="city" value="Kent"/>
 		<property name="state" value="OH"/>
 		<property name="zipcode" value="45132"/>
-		<property name="addressType" value="secondary" />
+		<property name="addressType" value="primary" />
 	</bean>
 	
 	<bean id="card1" class="edu.uwpce.bzbookstore.BZCreditCard">

@@ -59,7 +59,6 @@ public class BZCheckoutController {
 //			logger.info("in showcheckout, bzuserinfo has username: " + bzuserinfo.getUserName());
 			BZCheckoutInfo bzcheckoutinfo = new BZCheckoutInfo(bzcart, bzuserinfo);
 //			logger.info("bzcheckoutinfo has username: " + bzcheckoutinfo.getUserInfo().getUserName());
-			checkoutValidator.validate(bzcheckoutinfo);
 			session.setAttribute("checkout", true);
 			session.setAttribute("numCartItems", bzcart.getCartQty());
 			session.setAttribute("bzcheckoutinfo", bzcheckoutinfo);

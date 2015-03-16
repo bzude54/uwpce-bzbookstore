@@ -78,21 +78,21 @@ public class BZUserInfoController {
     public ModelAndView displayRegisterForm() {
 
         // This is a shortcut if we only have one attribute to put in our model
-        return new ModelAndView("bzregister", "bZUserInfo", new BZUserInfo()); 
+        return new ModelAndView("bzregisterForm", "bZUserInfo", new BZUserInfo()); 
     }
 
     @RequestMapping(value = "/bzregister", method = RequestMethod.POST)
     public String processRegister(HttpSession session,
-                               @ModelAttribute @Valid BZUserInfo userInfo, Errors errors) {
+                               @ModelAttribute("bZUserInfo") @Valid BZUserInfo bZUserInfo, Errors errors) {
 
-/*        if (errors.hasErrors()) {
-            return "bzregister";
+        if (errors.hasErrors()) {
+            return "bzregisterForm";
         }
- */       
-    	userManager.setSingleUser(userInfo);
-        session.setAttribute("username", userInfo.getUserName());
-        session.setAttribute("userid", userInfo.getUserId());
- //     logger.info("new userid after register is: " + user.getUserId());
+      
+    	userManager.setSingleUser(bZUserInfo);
+        session.setAttribute("username", bZUserInfo.getUserName());
+        session.setAttribute("userid", bZUserInfo.getUserId());
+       logger.info("new userid after register is: " + bZUserInfo.getUserId());
         return "redirect:/bzlogin";
     }
     
@@ -114,15 +114,21 @@ public class BZUserInfoController {
     
     
     @RequestMapping(value = "/bzaccountinfo/{userid}", method = RequestMethod.POST)
-    public String processAccountInfoForm(HttpSession session, @ModelAttribute BZUserInfo accountUserInfo) {
+    public String processAccountInfoForm(HttpSession session, @ModelAttribute @Valid BZUserInfo accountUserInfo, Errors errors) {
     	
+    	
+        if (errors.hasErrors()) {
+        	return "bzaccountinfo";
+        }
+      
+
     	int userid = accountUserInfo.getUserId();
 //		logger.info("in bzacctinfo, userid is: " + userid);
     	String username = accountUserInfo.getUserName();
 //    	 logger.info("in bzacctinfo, username is: " + username);
     	
+    	
 		boolean update = false;
-//		Map<Integer, BZUserInfo> users = userManager.getUsers();
 		
 		
 /*		if (user != null) {

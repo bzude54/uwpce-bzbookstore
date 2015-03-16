@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -22,10 +23,13 @@ public class BZUserInfo implements Serializable{
 	
 	private int userId;
 	
+	@NotNull(message="You must enter your first name.")
 	private String firstName;
+	
+	@NotNull(message="You must enter your last name.")
 	private String lastName;
 
-	@Size(min=4, max=16, message="User name must be 4 to 16 characters.")
+	@Size(min=5, max=16, message="User name must be 5 to 16 characters.")
 	private String userName;
 	
 	@Size(min=8, max=8, message="Password must be 8 characters.")	

@@ -12,6 +12,7 @@ public class BZCheckoutInfoValidatorImpl implements BZCheckoutInfoValidator {
 
 	@Override
 	public boolean validate(BZCheckoutInfo checkoutinfo) {
+		logger.debug("in checkoutinfovalidator validatemethod.");
 		boolean validCheckoutInfo = false;
 		validCheckoutInfo = validShippingAddress(checkoutinfo.getUserAddresses());
 		validCheckoutInfo = validCreditCard(checkoutinfo.getUserCreditCards());
@@ -20,6 +21,7 @@ public class BZCheckoutInfoValidatorImpl implements BZCheckoutInfoValidator {
 
 	@Override
 	public boolean validShippingAddress(List<BZAddress> addresses) {
+		logger.debug("in checkoutinfovalidator validate shipping address method.");
 		boolean validShipAddr = false;
 		String street;
 		String city;
@@ -36,11 +38,13 @@ public class BZCheckoutInfoValidatorImpl implements BZCheckoutInfoValidator {
 				}
 			}
 		}
+		logger.debug("in checkoutinfovalidator validate shipping address method. result is: " + validShipAddr);
 		return validShipAddr;
 	}
 
 	@Override
 	public boolean validCreditCard(List<BZCreditCard> cards) {
+		logger.debug("in checkoutinfovalidator validate credit card method.");
 		boolean validCreditCard = false;
 		for (BZCreditCard checkcard : cards)
 		{
@@ -50,6 +54,7 @@ public class BZCheckoutInfoValidatorImpl implements BZCheckoutInfoValidator {
 				}			
 			}
 		}
+		logger.debug("in checkoutinfovalidator validate card method. result is: " + validCreditCard);
 		return validCreditCard;
 	}
 
