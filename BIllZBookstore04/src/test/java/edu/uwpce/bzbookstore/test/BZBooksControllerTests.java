@@ -18,8 +18,11 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {
+    "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
     "file:src/main/webapp/resources/data/books.xml",
-    "file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+    "file:src/main/webapp/resources/data/users.xml",
+    "file:src/main/webapp/WEB-INF/spring/*.xml",
+    "file:src/main/webapp/WEB-INF/spring/appServlet/*.xml"})
 public class BZBooksControllerTests {
     @Autowired
     protected WebApplicationContext wac;
