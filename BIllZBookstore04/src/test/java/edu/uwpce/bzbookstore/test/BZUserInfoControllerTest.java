@@ -35,7 +35,7 @@ public class BZUserInfoControllerTest {
     }
 
    @Test
-    public void testLogin() throws Exception{
+    public void testValidLogin() throws Exception{
         mockMvc.perform(
             post("/bzlogin").param("userName", "buzz")
                           .param("password", "infinity"))
@@ -47,7 +47,46 @@ public class BZUserInfoControllerTest {
            				  .andExpect(view().name("redirect:/bzbooks"));
     }
    
-    @Test
+   @Test
+   public void testUserRegister() throws Exception {
+       mockMvc.perform(post("/bzregister").param("userName", "freddie")
+               		.param("password", "bedrock1")
+               		.param("firstName", "Fred")
+               		.param("lastName", "Flintstone")
+               		.param("phoneNumber1", "206-222-3456")
+               		.param("emailAddress", "freddie@bedrock.com"))
+                    .andExpect(status().is3xxRedirection())
+       				.andExpect(model().attributeExists("BZUserInfo"))
+       				.andExpect(model().attribute("BZUserInfo", allOf(
+						hasProperty("userName", is("freddie")),
+						hasProperty("password", is("bedrock1")),
+						hasProperty("firstName", is("Fred")),
+						hasProperty("lastName", is("Flintstone")),
+						hasProperty("phoneNumber1", is("206-222-3456")))))		
+       				.andExpect(view().name("redirect:/bzlogin"));
+
+   }
+   
+   
+   @Test
+   public void testUserRegisterWithErrors() throws Exception {
+       mockMvc.perform(post("/bzregister").param("userName", "ben")
+               		.param("password", "fantastic")
+               		.param("firstName", "Ben")
+               		.param("lastName", "Grimm")
+               		.param("phoneNumber1", "444-1234")
+               		.param("emailAddress", "duh.com"))
+                    .andExpect(status().isOk())
+       				.andExpect(model().attributeHasFieldErrors("BZUserInfo", "userName"))
+       				.andExpect(model().attributeHasFieldErrors("BZUserInfo", "password"))
+       				.andExpect(model().attributeHasFieldErrors("BZUserInfo", "emailAddress"))
+       				.andExpect(model().attributeHasFieldErrors("BZUserInfo", "phoneNumber1"))
+       				.andExpect(view().name("bzregisterForm"));
+   }
+
+
+   
+   @Test
     public void testUserAccountInfo() throws Exception {
         mockMvc.perform(get("/bzaccountinfo/100"))
                        .andExpect(status().isOk())

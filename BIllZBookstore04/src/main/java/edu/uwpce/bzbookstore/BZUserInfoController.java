@@ -43,7 +43,7 @@ public class BZUserInfoController {
 
     @RequestMapping(value = "/bzlogin", method = RequestMethod.POST)
     public String processLogin(HttpSession session,
-                               @ModelAttribute BZUserInfo loginUserInfo) {
+                               @ModelAttribute("BZUserInfo") BZUserInfo loginUserInfo) {
     	
     	String username = loginUserInfo.getUserName();
     	int userid = 0;
@@ -83,7 +83,7 @@ public class BZUserInfoController {
 
     @RequestMapping(value = "/bzregister", method = RequestMethod.POST)
     public String processRegister(HttpSession session,
-                               @ModelAttribute("bZUserInfo") @Valid BZUserInfo bZUserInfo, Errors errors) {
+                               @ModelAttribute @Valid BZUserInfo bZUserInfo, Errors errors) {
 
         if (errors.hasErrors()) {
             return "bzregisterForm";
