@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {
-    "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
-    "file:src/main/webapp/resources/data/books.xml",
-    "file:src/main/webapp/resources/data/users.xml",
+    "file:src/main/webapp/resources/data/*.xml",
     "file:src/main/webapp/WEB-INF/spring/*.xml",
     "file:src/main/webapp/WEB-INF/spring/appServlet/*.xml"})
 public class BZBooksControllerTests {
@@ -38,8 +38,7 @@ public class BZBooksControllerTests {
         mockMvc.perform(get("/bzbooks"))
                .andExpect(status().isOk())
                .andExpect(model().attributeExists("booksMap"))
-               .andExpect(model().attribute("booksMap", hasSize(4)))
-               .andExpect(model().attribute("booksMap", hasItem(
+               .andExpect(model().attribute("booksMap", hasValue(
                        allOf(
                                hasProperty("title", is("Neuromancer")),
                                hasProperty("author", is("William Gibson")),
@@ -47,7 +46,7 @@ public class BZBooksControllerTests {
                                hasProperty("price", is(8.99)),
                                hasProperty("ISBN", is("978-0441569595"))
                                ))))
-               .andExpect(model().attribute("booksMap", hasItem(
+               .andExpect(model().attribute("booksMap", hasValue(
                        allOf(
                                hasProperty("title", is("Foundation")),
                                hasProperty("author", is("Isaac Asimov")),
@@ -55,7 +54,15 @@ public class BZBooksControllerTests {
                                hasProperty("price", is(14.50)),
                                hasProperty("ISBN", is("978-0553293357"))
                                ))))
-               .andExpect(model().attribute("booksMap", hasItem(
+               .andExpect(model().attribute("booksMap", hasValue(
+                       allOf(
+                               hasProperty("title", is("A Brief History of Time")),
+                               hasProperty("author", is("Stephen Hawking")),
+                               hasProperty("genre", is("non-fiction")),
+                               hasProperty("price", is(12.00)),
+                               hasProperty("ISBN", is("978-0553380163"))
+                               ))))
+               .andExpect(model().attribute("booksMap", hasValue(
                        allOf(
                                hasProperty("title", is("Industrial Light and Magic - The Art of Innovation")),
                                hasProperty("author", is("Pamela Glintenkamp")),
@@ -63,6 +70,9 @@ public class BZBooksControllerTests {
                                hasProperty("price", is(57.50)),
                                hasProperty("ISBN", is("978-0810998025"))
                                ))))
-              .andExpect(view().name("bzbooks"));
+             .andExpect(view().name("bzbooks"));
     }
 }
+
+
+
